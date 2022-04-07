@@ -1,6 +1,5 @@
 #This code converts a number of any base into decimal base 10
 
-from unicodedata import numeric
 def convertToDecimal():
     numberToConvert = input("Enter a number to input")
     currentBase = input("Enter the current base")
