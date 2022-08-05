@@ -6,16 +6,14 @@ from random import randint
 from turtle import speed, width
 
 class worldGen:
-    def __init__(self):
+    def __init__(self,i1,i2):
         self.display = pygame.display.set_mode((800,600))
         self.display.fill((0,100,0))
-        self.mapLength = randint(1000,2000)
-        self.mapHeight = randint(1000,2000)
-        self.mapBorders = [0,self.mapLength,0,(-1*self.mapHeight)]
+        #in order of left, right, top, bottom
         self.allObstacles = []
         self.allCreatures = []
-
-        self.borders = self.createBorders()
+        self.map = Obstacle(((0,100,0)),0,0,randint(500,1000),randint(500,1000))
+        # self.map = Obstacle(((0,100,0)),0,0,i1,i2)
         for i in range(randint(5,15)):
             self.createObstacle()
         for i in range(randint(5,15)):
@@ -23,37 +21,21 @@ class worldGen:
 
     def createObstacle(self):
         color = (randint(0,255),0,randint(0,255))
-        x,y = randint(0,self.mapLength),randint(0,self.mapHeight)
+        x,y = randint(0,self.map.getWidth()),randint(0,self.map.getHeight())
         width,height = 10,10
         obstacle = Obstacle(color,x,y,width,height)
         self.allObstacles.append(obstacle)
 
     def createCreature(self):
         color = (randint(0,255),0,randint(0,255))
-        x,y = randint(0,self.mapLength),randint(0,self.mapHeight)
+        x,y = randint(0,self.map.getWidth()),randint(0,self.map.getHeight())
         width,height = 10,10
         creature = Creature(color,x,y,width,height)
         self.allCreatures.append(creature)
 
-    def createBorders(self):
-        obstacle = Obstacle((0,100,0),0,0,self.mapLength,self.mapHeight)
-        self.allObstacles.append(obstacle)
-    
-    # def createBorders(self):
-    #     xBorders = []
-    #     yBorders = []
-    #     self.Obstacle((255,0,0),randint(-1000,-5000),randint(-1000,-5000),)
-    #     self.
-
-    def moveAllCreatures(self, movement = [0,0]):
+    def moveAllCreatures(self):
         for i in self.allCreatures:
-            i.setX(i.getX() + movement[0] + randint(-3,3))
-            i.setY(i.getY() + movement[1] + randint(-3,3))
-
-    def moveAllObstacles(self, movement):
-        for i in self.allObstacles:
-            i.setX(i.getX() + movement[0])
-            i.setY(i.getY() + movement[1])
+            i.move(self.map)
 
     def getAllCreatures(self):
         return self.allCreatures
@@ -63,12 +45,15 @@ class worldGen:
 
     def updateWorld(self):
         self.display.fill((255,0,0))
+
+        pygame.draw.rect(self.display,self.map.getColor(), (self.map.getX(),self.map.getY(),
+        self.map.getWidth(),self.map.getHeight()))
+
         for i in self.allObstacles:
             pygame.draw.rect(self.display, i.getColor(), (i.getX(),i.getY(),i.getWidth(),i.getHeight()))
         for i in self.allCreatures:
             pygame.draw.rect(self.display, i.getColor(), (i.getX(),i.getY(),i.getWidth(),i.getHeight()))
         pygame.display.update()
-
     
 
         
