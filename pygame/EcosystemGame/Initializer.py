@@ -30,7 +30,6 @@ while True:
     if keys[pygame.K_s]:
         movement[1] -=5
     
-
     Interactions.moveScreen(world, movement)
     print(movement)
     # world.moveAllCreatures()

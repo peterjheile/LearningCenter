@@ -1,8 +1,8 @@
 from Things.Thing import Thing
 class Creature(Thing):
-    def __init__(self):
-        super().__init__()
-        self.color = (200,200,0)
+    def __init__(self,color,x,y,width,height):
+        super().__init__(color,x,y,width,height)
+        self.color = (255,255,0)
         self.health = self.width*self.height
 
     def getHealth(self):

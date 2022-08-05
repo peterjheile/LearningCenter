@@ -1,7 +1,7 @@
 from Things.Thing import Thing
 class Obstacle(Thing):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,color,x,y,width,height):
+        super().__init__(color,x,y,width,height)
 
     def getColor(self):
         return self.color
