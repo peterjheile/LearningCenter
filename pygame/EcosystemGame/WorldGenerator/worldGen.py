@@ -8,7 +8,7 @@ from turtle import speed, width
 class worldGen:
     def __init__(self):
         self.display = pygame.display.set_mode((800,600))
-        self.display.fill((0,200,0))
+        self.display.fill((0,100,0))
         self.allObstacles = []
         self.allCreatures = []
         for i in range(randint(5,15)):
@@ -24,10 +24,21 @@ class worldGen:
         self.creature = Creature()
         self.allCreatures.append(self.creature)
 
-    def moveAllCreatures(self):
+    def moveAllCreatures(self, movement = [0,0]):
         for i in self.allCreatures:
-            i.setX(i.getX() + randint(-3,3))
-            i.setY(i.getY() + randint(-3,3))
+            i.setX(i.getX() + movement[0] + randint(-3,3))
+            i.setY(i.getY() + movement[1] + randint(-3,3))
+
+    def moveAllObstacles(self, movement):
+        for i in self.allObstacles:
+            i.setX(i.getX() + movement[0])
+            i.setY(i.getY() + movement[1])
+
+    def getAllCreatures(self):
+        return self.allCreatures
+
+    def getAllObstacles(self):
+        return self.allObstacles
 
     def updateWorld(self):
         self.display.fill((0,100,0))
