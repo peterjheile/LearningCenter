@@ -6,9 +6,9 @@ from WorldGenerator.worldGen import worldGen
 from UserInteractions.MoveScreen import Interactions
 
 pygame.init()
+# world = worldGen(int(input()),int(input()))
 world = worldGen()
 clock = pygame.time.Clock()
-
 
 while True:
 
@@ -32,7 +32,7 @@ while True:
     
     Interactions.moveScreen(world, movement)
     print(movement)
-    # world.moveAllCreatures()
+    world.moveAllCreatures()
     world.updateWorld()
     clock.tick(60)
     
