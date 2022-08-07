@@ -8,10 +8,11 @@ import math
 iNodes = 2
 oNodes = 2
 hNodes = 3
-batchSize = 8
+batchSize = 1
 
 iData = numpy.random.randn(batchSize,iNodes)
 oData = numpy.random.randn(batchSize,oNodes)
+print(iData)
 
 lossArray = numpy.array([[]])
 indices = numpy.array([[]])
