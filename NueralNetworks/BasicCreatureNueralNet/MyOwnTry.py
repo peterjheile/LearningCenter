@@ -21,10 +21,7 @@ class Brain:
         for i in self.allLayers:
             print("--------------------------")
             print("LAYER ",counter , "\n")
-            print("Layer Values: ", i.layerOutputs)
-            print("Nueron Outputs: ", i.allNueronOutputs)
-            for x in i:
-                print(Nueron)
+            print(i.getInfo())
             print("--------------------------")
             counter+=1
         
@@ -47,6 +44,17 @@ class NueralLayer:
                 output += self.allNueronOutputs[x][i]
             layerOutputs.append(output + self.bias)
         return layerOutputs
+
+    def getInfo(self):
+        counter = 0
+        for i in self.layerNuerons:
+            print("Nueron", str(counter) +":")
+            print("Nueron Value: ",i.value)
+            print("Nueron weights: ", i.weights)
+            print("Nueron Output: ",i.getOutputs())
+            print()
+            counter+=1
+
 
 class Nueron:
 
