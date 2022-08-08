@@ -1,3 +1,4 @@
+from re import A
 import numpy as np
 
 class Nueron:
@@ -39,7 +40,7 @@ class NueralLayer:
             total = self.bias
             for x in range(len(allOutputs)):
                 total += allOutputs[x][i] 
-            input.append(total)
+            input.append(self.reLU(total))
         return input
 
     def update(self, inputs):
@@ -49,6 +50,10 @@ class NueralLayer:
         self.eachNueronValue = self.getEachNueronValue()
         self.eachNueronOutput = self.getEachNueronOutput()    
         self.nextLayerInputs = self.getNextLayerInput()
+
+    def reLU(self, input):
+        return max(0,input)
+
 
 
     def getInfo(self):
@@ -95,15 +100,19 @@ class Brain:
         print("--------------------------------------")
 
             
-
-nueronsEachLayer = [3,20,4,2,5,6,2]
-initialInputs = [1,8,.07,4,.1,.02,-1]
+nueronsEachLayer = [2,3,2]
+initialInputs = [1,1,1]
 
 brain = Brain(nueronsEachLayer,initialInputs)
 
-brain.calculate(initialInputs)
-problemInputs = [0.02,-.1,-3,1,.07,-1,.1]
-brain.calculate(problemInputs)
+continues = 1
+while continues:
+    brain.calculate(initialInputs)
+    A = int(input())
+    B = int(input())
+    C = int(input())
+    brain.calculate([A,B,C])
+    contiues = input("Enter a number to continue")
 
 
 #To create a nueral network you must intialize a "Brain." The 2 parameters of said brain are as goes:
@@ -115,6 +124,8 @@ brain.calculate(problemInputs)
 # nueronsInEachLayer = [3,4,4,2]
 # initialInputs = [.1,-2,6,.27]
 # brain1 = Brain(nueronsInEachLayer, initialInputs)
+
+#fixes to be made: activation function should not apply on the output layer but it currently does
 
 
         
