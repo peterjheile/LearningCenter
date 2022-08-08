@@ -10,10 +10,15 @@ class Nueron:
     def getOutputs(self):
         return [(i * self.value) for i in self.weights] if self.weights.any() else [self.value]
 
+    def update(self, value):
+        self.value = value
+        self.output = self.getOutputs()
+
 class NueralLayer:
     def __init__(self, inputs, nueronsNextLayer = 0,bias = 0):
         self.bias = bias
-        self.layerNuerons = [Nueron(i,nueronsNextLayer) for i in inputs]
+        self.inputs = inputs
+        self.layerNuerons = [Nueron(i,nueronsNextLayer) for i in self.inputs]
         self.eachNueronValue = self.getEachNueronValue()
         self.eachNueronOutput = self.getEachNueronOutput()    
         self.nextLayerInputs = self.getNextLayerInput()
@@ -33,9 +38,18 @@ class NueralLayer:
         for i in range(len(allOutputs[0])):
             total = self.bias
             for x in range(len(allOutputs)):
-                total += allOutputs[x][i]
-            input.append(total + self.bias)
+                total += allOutputs[x][i] 
+            input.append(total)
         return input
+
+    def update(self, inputs):
+        self.inputs = inputs
+        for i,x in zip(self.layerNuerons,inputs):
+            i.update(x)
+        self.eachNueronValue = self.getEachNueronValue()
+        self.eachNueronOutput = self.getEachNueronOutput()    
+        self.nextLayerInputs = self.getNextLayerInput()
+
 
     def getInfo(self):
         print("Layer Inputs:",self.eachNueronValue,"\n")
@@ -56,7 +70,7 @@ class Brain:
         self.createAllLayers(self.input)
 
     def createAllLayers(self, input, counter = 0):
-        if counter != len(self.nueronsInEachLayer)-1:
+        if counter != len(self.nueronsInEachLayer)-2:
             self.allLayers.append(NueralLayer(input,self.nueronsInEachLayer[counter+1]))
             self.createAllLayers(self.allLayers[counter].nextLayerInputs, counter+1)
         else: 
@@ -70,13 +84,39 @@ class Brain:
             i.getInfo()
             print("----------------------")
             counter +=1
+
+    def calculate(self, inputs):
+        print("--------------------------------------")
+        print("Input: ", inputs)
+        for i in self.allLayers:
+            i.update(inputs)
+            inputs = i.nextLayerInputs
+        print("Output:",self.allLayers[len(self.allLayers)-2].nextLayerInputs)
+        print("--------------------------------------")
+
             
 
-nueronsEachLayer = [2,3,2]
-inputs = [1,1]
+nueronsEachLayer = [3,20,4,2,5,6,2]
+initialInputs = [1,8,.07,4,.1,.02,-1]
 
-brain = Brain(nueronsEachLayer,inputs)
-brain.getInfo()
+brain = Brain(nueronsEachLayer,initialInputs)
+
+brain.calculate(initialInputs)
+problemInputs = [0.02,-.1,-3,1,.07,-1,.1]
+brain.calculate(problemInputs)
+
+
+#To create a nueral network you must intialize a "Brain." The 2 parameters of said brain are as goes:
+# 1: a list containing the amount of nuerons you would like in each layer (including the input and output layer)
+# 2: a list containing the first initial inputs you wish to be calculated
+
+#Example:
+
+# nueronsInEachLayer = [3,4,4,2]
+# initialInputs = [.1,-2,6,.27]
+# brain1 = Brain(nueronsInEachLayer, initialInputs)
+
+
         
         
     
