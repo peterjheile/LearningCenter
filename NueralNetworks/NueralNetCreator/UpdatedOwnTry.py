@@ -16,9 +16,11 @@ class Nueron:
         self.output = self.getOutputs()
 
 class NueralLayer:
-    def __init__(self, inputs, nueronsNextLayer = 0,bias = 0):
+    def __init__(self, inputs, nueronsNextLayer = 0, bias = 0, final = False):
         self.bias = bias
         self.inputs = inputs
+        self.final = final
+        print(self.final)
         self.layerNuerons = [Nueron(i,nueronsNextLayer) for i in self.inputs]
         self.eachNueronValue = self.getEachNueronValue()
         self.eachNueronOutput = self.getEachNueronOutput()    
@@ -40,7 +42,14 @@ class NueralLayer:
             total = self.bias
             for x in range(len(allOutputs)):
                 total += allOutputs[x][i] 
-            input.append(self.reLU(total))
+
+            # input.append(self.reLU(total))
+
+            if self.final:
+                input.append(total)
+            else:
+                input.append(self.reLU(total))
+
         return input
 
     def update(self, inputs):
@@ -76,8 +85,12 @@ class Brain:
 
     def createAllLayers(self, input, counter = 0):
         if counter != len(self.nueronsInEachLayer)-2:
-            self.allLayers.append(NueralLayer(input,self.nueronsInEachLayer[counter+1]))
-            self.createAllLayers(self.allLayers[counter].nextLayerInputs, counter+1)
+            if counter == len(self.nueronsInEachLayer)-3:
+                self.allLayers.append(NueralLayer(input,self.nueronsInEachLayer[counter+1],final = True))
+                self.createAllLayers(self.allLayers[counter].nextLayerInputs, counter+1)
+            else:
+                self.allLayers.append(NueralLayer(input,self.nueronsInEachLayer[counter+1]))
+                self.createAllLayers(self.allLayers[counter].nextLayerInputs, counter+1)
         else: 
             self.allLayers.append(NueralLayer(input))
 
@@ -103,16 +116,20 @@ class Brain:
 nueronsEachLayer = [2,3,2]
 initialInputs = [1,1,1]
 
+
 brain = Brain(nueronsEachLayer,initialInputs)
 
-continues = 1
-while continues:
-    brain.calculate(initialInputs)
-    A = int(input())
-    B = int(input())
-    C = int(input())
-    brain.calculate([A,B,C])
-    contiues = input("Enter a number to continue")
+brain.getInfo()
+brain.calculate(initialInputs)
+
+# continues = 1
+# while continues:
+#     brain.calculate(initialInputs)
+#     A = int(input())
+#     B = int(input())
+#     C = int(input())
+#     brain.calculate([A,B,C])
+#     contiues = input("Enter a number to continue")
 
 
 #To create a nueral network you must intialize a "Brain." The 2 parameters of said brain are as goes:
