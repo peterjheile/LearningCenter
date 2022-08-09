@@ -27,11 +27,17 @@ class Brain:
             print("----------------------")
             counter +=1
 
-    def calculate(self, inputs):
-        print("--------------------------------------")
-        print("Input: ", inputs)
+    # def calculate(self, inputs):
+    #     print("--------------------------------------")
+    #     print("Input: ", inputs)
+        # for i in self.allLayers:
+        #     i.update(inputs)
+        #     inputs = i.nextLayerInputs
+    #     print("Output:",self.allLayers[len(self.allLayers)-2].nextLayerInputs)
+    #     print("--------------------------------------")
+
+    def calculate(self,inputs):
         for i in self.allLayers:
             i.update(inputs)
             inputs = i.nextLayerInputs
-        print("Output:",self.allLayers[len(self.allLayers)-2].nextLayerInputs)
-        print("--------------------------------------")
+        return self.allLayers[len(self.allLayers)-2].nextLayerInputs

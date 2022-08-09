@@ -35,13 +35,24 @@ class worldGen:
 
     def moveAllCreatures(self):
         for i in self.allCreatures:
-            i.move(self.map)
+            factors = i.getMoveFactors()
+            i.move(self.map, factors)
 
     def getAllCreatures(self):
         return self.allCreatures
 
     def getAllObstacles(self):
         return self.allObstacles
+
+    def darwanism(self):
+        for i in self.allCreatures:
+            for x in self.allObstacles:
+                #i.status returns false if they are not in the same location
+                if (i.status(x)):
+                    self.allCreatures.remove(i)
+
+    def getMoveFactors(self):
+        return [0,0]
 
     def updateWorld(self):
         self.display.fill((255,0,0))
@@ -53,7 +64,12 @@ class worldGen:
             pygame.draw.rect(self.display, i.getColor(), (i.getX(),i.getY(),i.getWidth(),i.getHeight()))
         for i in self.allCreatures:
             pygame.draw.rect(self.display, i.getColor(), (i.getX(),i.getY(),i.getWidth(),i.getHeight()))
+
+        self.darwanism()
+
         pygame.display.update()
+
+
     
 
         
