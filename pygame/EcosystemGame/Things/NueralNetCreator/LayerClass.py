@@ -1,4 +1,4 @@
-from NueronClass import Nueron
+from Things.NueralNetCreator.NueronClass import Nueron
 
 class NueralLayer:
     def __init__(self, inputs, nueronsNextLayer = 0, bias = 0, final = False):

@@ -1,4 +1,4 @@
-from LayerClass import NueralLayer
+from Things.NueralNetCreator.LayerClass import NueralLayer
 
 class Brain:
     def __init__(self, nueronsInEachLayer, input):
