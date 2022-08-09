@@ -1,4 +1,5 @@
 from Things.NueralNetCreator.LayerClass import NueralLayer
+import math
 
 class Brain:
     def __init__(self, nueronsInEachLayer, input):
@@ -36,8 +37,17 @@ class Brain:
     #     print("Output:",self.allLayers[len(self.allLayers)-2].nextLayerInputs)
     #     print("--------------------------------------")
 
+    def sigmoid(self, num):
+        return 1/(1+ (math.e ** num))
+
     def calculate(self,inputs):
         for i in self.allLayers:
             i.update(inputs)
             inputs = i.nextLayerInputs
-        return self.allLayers[len(self.allLayers)-2].nextLayerInputs
+        nums = self.allLayers[len(self.allLayers)-2].nextLayerInputs
+
+        # print("Before",nums)
+        for i in range(len(nums)):
+            nums[i] = self.sigmoid(nums[i])-0.5
+        # print("After",nums)
+        return nums

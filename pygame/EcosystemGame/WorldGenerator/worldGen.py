@@ -4,10 +4,11 @@ import pygame
 import sys
 from random import randint
 from turtle import speed, width
+import math
 
 class worldGen:
-    def __init__(self,i1,i2):
-        self.display = pygame.display.set_mode((800,600))
+    def __init__(self,i1 = 0,i2 = 0):
+        self.display = pygame.display.set_mode((1200,700))
         self.display.fill((0,100,0))
         #in order of left, right, top, bottom
         self.allObstacles = []
@@ -35,8 +36,9 @@ class worldGen:
 
     def moveAllCreatures(self):
         for i in self.allCreatures:
-            factors = i.getMoveFactors()
+            factors = self.getMoveFactors(i)
             i.move(self.map, factors)
+        self.darwanism()
 
     def getAllCreatures(self):
         return self.allCreatures
@@ -45,14 +47,49 @@ class worldGen:
         return self.allObstacles
 
     def darwanism(self):
-        for i in self.allCreatures:
+        i = 0
+        totalCreatures = len(self.allCreatures) - 1
+        while i < totalCreatures:
             for x in self.allObstacles:
                 #i.status returns false if they are not in the same location
-                if (i.status(x)):
-                    self.allCreatures.remove(i)
+                if (self.allCreatures[i].status(x,self.map)):
+                    self.allCreatures.pop(i)
+                    totalCreatures -=1
+                    print("Creature Died")
+            i += 1
 
-    def getMoveFactors(self):
-        return [0,0]
+    # def getClosest(self,creature):
+    #     closest = 100000
+    #     for i in self.allObstacles:
+    #         distance = math.dist((i.x,i.y),(creature.x,creature.y))
+    #         if distance < closest:
+    #             closest = distance
+    #     return distance
+            
+    def getMoveFactors(self,creature):
+
+        closest,obstacle = 100000, self.allCreatures[0]
+        for i in self.allObstacles:
+            distance = math.dist((i.x,i.y),(creature.x,creature.y))
+            if distance < closest:
+                closest,obstacle = distance,i
+        closest = closest/self.map.height
+        
+        
+        #finds angle of closest creature
+        xDist = (i.x - creature.x) if (i.x - creature.x != 0) else 1
+        yDist = (i.y - creature.y)
+        angle = math.degrees((math.atan(abs(yDist)/abs(xDist))))
+        if (xDist < 0 and yDist > 0):
+            angle = angle+90
+        elif (xDist < 0 and yDist < 0):
+            angle = angle + 180
+        elif (xDist > 0 and yDist < 0):
+            angle = angle + 270
+        angle = angle/360
+
+        # print([distance,angle])
+        return [closest,angle]
 
     def updateWorld(self):
         self.display.fill((255,0,0))
