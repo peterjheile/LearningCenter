@@ -31,7 +31,7 @@ class worldGen:
     def createCreature(self):
         color = (randint(0,255),0,randint(0,255))
         x,y = randint(0,self.map.getWidth()),randint(0,self.map.getHeight())
-        width,height = 10,10
+        width,height = 5,5
         creature = Creature(color,x,y,width,height)
         self.allCreatures.append(creature)
 

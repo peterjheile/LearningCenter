@@ -48,6 +48,6 @@ class Brain:
 
         # print("Before",nums)
         for i in range(len(nums)):
-            nums[i] = self.sigmoid(nums[i])-0.5
+            nums[i] = (self.sigmoid(nums[i])-0.5)*1
         # print("After",nums)
         return nums
