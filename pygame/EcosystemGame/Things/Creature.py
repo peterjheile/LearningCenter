@@ -6,7 +6,7 @@ from Things.NueralNetCreator.BrainClass import Brain
 
 class Creature(Thing):
     def __init__(self,color,x,y,width,height):
-        super().__init__(color,x,y,5,5)
+        super().__init__(color,x,y,width,height)
         self.color = (255,255,0)
         self.health = self.width*self.height
         self.brain = Brain([3,4,2],[1,1,1])
@@ -35,7 +35,7 @@ class Creature(Thing):
             return True
         elif ((self.y < map.y) or (self.y > map.y +map.height)):
             return True
-            
+
         return False
 
 
