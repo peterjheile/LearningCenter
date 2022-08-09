@@ -13,11 +13,12 @@ class worldGen:
         #in order of left, right, top, bottom
         self.allObstacles = []
         self.allCreatures = []
-        self.map = Obstacle(((0,100,0)),0,0,randint(500,1000),randint(500,1000))
+        # self.map = Obstacle(((0,100,0)),0,0,randint(500,1000),randint(500,1000))
+        self.map = Obstacle(((0,100,0)),0,0,900,600)
         # self.map = Obstacle(((0,100,0)),0,0,i1,i2)
-        for i in range(randint(5,15)):
+        for i in range(randint(10,30)):
             self.createObstacle()
-        for i in range(randint(5,15)):
+        for i in range(randint(10,30)):
             self.createCreature()
 
     def createObstacle(self):

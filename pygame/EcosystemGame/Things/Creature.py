@@ -28,12 +28,14 @@ class Creature(Thing):
         # print(movements[0], movements[1])
 
     def status(self, thing, map):
-        if ((thing.x < self.x) and ((thing.x + thing.width) >= self.x)) and (thing.y < self.y) and ((thing.y + thing.height) >= self.x):
+        if ((self.x > thing.x) and (self.x < (thing.x + thing.width))):
+            if ((self.y > thing.y) and (self.y < (thing.y + thing.height))):
+                return True
+        if ((self.x<map.x) or (self.x > map.x + map.width)):
             return True
-        elif ((thing.x < map.x) or (thing.x > (map.x + map.width))):
+        elif ((self.y < map.y) or (self.y > map.y +map.height)):
             return True
-        elif ((thing.y < map.y) or (thing.y > (map.y + map.height))):
-            return True
+            
         return False
 
 
