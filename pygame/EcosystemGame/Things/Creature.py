@@ -3,13 +3,12 @@ from random import randint
 from Things.NueralNetCreator.BrainClass import Brain
 
 
-
 class Creature(Thing):
     def __init__(self,color,x,y,width,height):
         super().__init__(color,x,y,width,height)
         self.color = (255,255,0)
         self.health = self.width*self.height
-        self.brain = Brain([3,4,2],[1,1,1])
+        self.brain = Brain([3,5,5,2],[1,1,1])
 
     # def move(self,map,movement = 3):
     #     #in order of left, right, top, bottom

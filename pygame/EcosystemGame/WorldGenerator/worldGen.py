@@ -56,6 +56,7 @@ class worldGen:
                 if (self.allCreatures[i].status(x,self.map)):
                     self.allCreatures.pop(i)
                     totalCreatures -=1
+                    i -= 1
                     print("Creature Died")
             i += 1
 

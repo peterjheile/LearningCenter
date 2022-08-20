@@ -1,3 +1,4 @@
+
 from turtle import speed, width
 import pygame
 import sys
@@ -35,7 +36,8 @@ while True:
     world.moveAllCreatures()
     world.updateWorld()
     clock.tick(60)
-    
+
+
 print("Stopped")
 
     
