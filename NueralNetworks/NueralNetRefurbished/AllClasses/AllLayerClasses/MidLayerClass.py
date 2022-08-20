@@ -3,6 +3,7 @@ import sys
 sys.path.append("AllNeuronClasses")
 from AllLayerClasses.LayerClass import Layer
 from AllNeuronClasses.MidNeuronClass import MidNeuron
+import random
 
 class MidLayer(Layer):
     def __init__(self, inputs, connections):
@@ -28,8 +29,20 @@ class MidLayer(Layer):
 
 #updates the input values of each neuron and gets a list of the new outputs based on those values
     def calculate(self, inputs):
+        for i in range(len(inputs)):
+            inputs[i] = self.reLU(inputs[i])
+
         for i in range(len(self.allNeurons)):
             self.allNeurons[i].value = inputs[i]
             self.allNeurons[i].output = self.allNeurons[i].calculateOutput()
         self.layerOutputs = self.getAllOutputs()
+
+#adjusts the weights of each neuron by a tiny amount (randomly)
+    def learn(self):
+        for i in self.allNeurons:
+            i.learn()
+
+#activation funtion I use for my code
+    def reLU(self, input):
+        return max(0,input)
 

@@ -1,5 +1,6 @@
 from AllNeuronClasses.NeuronClass import Neuron
 import numpy as np
+import random
 
 class MidNeuron(Neuron):
     def __init__(self, input, connections):
@@ -11,3 +12,7 @@ class MidNeuron(Neuron):
 
     def calculateOutput(self):
         return [(self.value*i) for i in self.weights]
+
+    def learn(self):
+        for i in range(len(self.weights)):
+            self.weights[i] = self.weights[i] + random.uniform(-.01,.01)

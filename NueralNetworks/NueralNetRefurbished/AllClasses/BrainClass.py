@@ -9,9 +9,10 @@ from AllNeuronClasses.FinalNeuronClass import FinalNeuron
 
 class Brain:
     def __init__(self, neuronsEachLayer, initialInputs):
+        self.initialInputs = initialInputs
         self.neuronsEachLayer = neuronsEachLayer
         self.Layers = []
-        self.createLayers(initialInputs,self.neuronsEachLayer)
+        self.createLayers(self.initialInputs,self.neuronsEachLayer)
 
     def createLayers(self, inputs, neuronsEachLayer):
         if (len(neuronsEachLayer) == 1):
@@ -23,10 +24,17 @@ class Brain:
             self.createLayers(layer.layerOutputs, neuronsEachLayer[1:])
 
     def calculate(self, inputs):
+        self.initialInputs = inputs
         for i in self.Layers:
             i.calculate(inputs)
             inputs = i.layerOutputs
         return self.Layers[len(self.Layers)-1].layerOutputs
+
+    def learn(self):
+        for i in range(len(self.Layers)-1):
+            self.Layers[i].learn()
+        self.calculate(self.initialInputs)
+
 
     def getInfo(self):
         for i in range(len(self.Layers)):
@@ -40,9 +48,10 @@ class Brain:
                 print("Neuron Output:", self.Layers[i].allNeurons[x].output)
 
             
-brain = Brain([5,10,10,5], [1,2,3,4,5])
-# brain.getInfo()
-print(brain.calculate([1,2,3,4,5]))
+brain = Brain([2,3,5,2], [1,2])
+brain.getInfo()
+brain.learn()
+brain.getInfo()
 
 
 
