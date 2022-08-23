@@ -9,6 +9,7 @@ class MidLayer(Layer):
     def __init__(self, inputs, connections):
         super().__init__(inputs)
         self.connections = connections
+        self.layerBias = 1
         self.allNeurons = self.createLayer()
         self.layerOutputs = self.getAllOutputs()
 
@@ -23,15 +24,12 @@ class MidLayer(Layer):
         for i in range(self.connections):
             for x in self.allNeurons:
                 outputs.append((x.value * x.weights[i]))
-            summedOutputs.append(sum(outputs))
+            summedOutputs.append(x.activationFunction(sum(outputs)+self.layerBias))
             outputs = []
         return summedOutputs
 
 #updates the input values of each neuron and gets a list of the new outputs based on those values
     def calculate(self, inputs):
-        for i in range(len(inputs)):
-            inputs[i] = self.reLU(inputs[i])
-
         for i in range(len(self.allNeurons)):
             self.allNeurons[i].value = inputs[i]
             self.allNeurons[i].output = self.allNeurons[i].calculateOutput()
@@ -42,7 +40,5 @@ class MidLayer(Layer):
         for i in self.allNeurons:
             i.learn()
 
-#activation funtion I use for my code
-    def reLU(self, input):
-        return max(0,input)
+
 

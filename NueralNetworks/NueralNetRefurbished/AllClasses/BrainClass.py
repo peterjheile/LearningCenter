@@ -46,12 +46,19 @@ class Brain:
                 if not(isinstance(self.Layers[i].allNeurons[x],FinalNeuron)):
                     print("Nueron Weights:",self.Layers[i].allNeurons[x].weights)
                 print("Neuron Output:", self.Layers[i].allNeurons[x].output)
+    
+
 
             
-brain = Brain([2,3,5,2], [1,2])
-brain.getInfo()
-brain.learn()
-brain.getInfo()
+brain = Brain([5,8,8,3], [1,2,3,4,5])
+print(brain.calculate([1,2,3,4,5]))
+print(brain.calculate([-1,3,1,.02,-.99]))
+
+
+
+
+
+
 
 
 

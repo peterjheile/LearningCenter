@@ -1,6 +1,7 @@
 from AllNeuronClasses.NeuronClass import Neuron
 import numpy as np
 import random
+import math
 
 class MidNeuron(Neuron):
     def __init__(self, input, connections):
@@ -16,3 +17,7 @@ class MidNeuron(Neuron):
     def learn(self):
         for i in range(len(self.weights)):
             self.weights[i] = self.weights[i] + random.uniform(-.01,.01)
+
+#uses the reLU activation function for mid layer nuerons
+    def activationFunction(self, value):
+        return ((math.e**value - math.e**-value)/(math.e**value + math.e**-value))
