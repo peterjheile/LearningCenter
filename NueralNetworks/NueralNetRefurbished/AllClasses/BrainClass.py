@@ -50,9 +50,11 @@ class Brain:
 
 
             
-brain = Brain([5,8,8,3], [1,2,3,4,5])
-print(brain.calculate([1,2,3,4,5]))
-print(brain.calculate([-1,3,1,.02,-.99]))
+brain = Brain([2,3,2], [1,2])
+print(brain.calculate([1,2]))
+print(brain.calculate([-1,-2]))
+
+
 
 
 
