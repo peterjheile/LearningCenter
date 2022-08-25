@@ -20,4 +20,4 @@ class MidNeuron(Neuron):
 
 #uses the reLU activation function for mid layer nuerons
     def activationFunction(self, value):
-        return ((math.e**value - math.e**-value)/(math.e**value + math.e**-value))
+        return value

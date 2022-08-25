@@ -11,7 +11,7 @@ class FinalNeuron(Neuron):
 
 #uses the sigmoid acitvation function for the final layer
     def activationFunction(self, value):
-        return ((math.e**value - math.e**-value)/(math.e**value + math.e**-value))
+        return value
 
 
 

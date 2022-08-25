@@ -9,7 +9,7 @@ class FinalLayer(Layer):
     def __init__(self, inputs):
         super().__init__(inputs)
         self.allNeurons = self.createLayer()
-        self.layerBias = 1
+        self.layerBias = .01
         self.layerOutputs = self.getAllOutputs()
 
 

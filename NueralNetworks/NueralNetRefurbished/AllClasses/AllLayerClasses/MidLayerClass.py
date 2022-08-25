@@ -9,7 +9,7 @@ class MidLayer(Layer):
     def __init__(self, inputs, connections):
         super().__init__(inputs)
         self.connections = connections
-        self.layerBias = 1
+        self.layerBias = .01
         self.allNeurons = self.createLayer()
         self.layerOutputs = self.getAllOutputs()
 
