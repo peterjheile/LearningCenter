@@ -15,7 +15,6 @@ while True:
             pygame.quit()
             sys.exit()
 
-
     keys = pygame.key.get_pressed()
 
     movement = [0,0]

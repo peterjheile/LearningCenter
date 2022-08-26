@@ -21,6 +21,7 @@ class Window:
 
     def updateDisplay(self, displacement):
         Interactions.displaceScreen(self.map,self.map.allObstacles,self.map.allCreatures,displacement)
+        Interactions.eliminateCreatures(self.map, self.map.allObstacles,self.map.allCreatures)
         self.display.fill(self.color)
         self.map.draw(self.display)
         pygame.display.update()
