@@ -25,7 +25,7 @@ class Map:
             i.draw(display)
 
     def drawAllCreatures(self,display):
-        for i in self.allObstacles:
+        for i in self.allCreatures:
             i.draw(display)
 
     def draw(self,display):

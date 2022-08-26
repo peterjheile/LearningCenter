@@ -1,3 +1,4 @@
+from random import randint
 class Interactions:
     @classmethod
     def displaceScreen(Interactions,map,obstacles,creatures,displacement):
@@ -9,5 +10,9 @@ class Interactions:
             i.y += displacement[1]
 
         for i in creatures:
-            i.x += displacement[0]
-            i.y += displacement[1]
+            i.x += displacement[0] + Interactions.creatureMove()
+            i.y += displacement[1] + Interactions.creatureMove()
+
+    @classmethod
+    def creatureMove(Interactions):
+        return randint(-1,1)
