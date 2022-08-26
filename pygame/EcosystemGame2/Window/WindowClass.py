@@ -20,7 +20,7 @@ class Window:
         self.map = Map()
 
     def updateDisplay(self, displacement):
-        Interactions.displaceScreen(self.map,self.map.allObstacles,displacement)
+        Interactions.displaceScreen(self.map,self.map.allObstacles,self.map.allCreatures,displacement)
         self.display.fill(self.color)
         self.map.draw(self.display)
         pygame.display.update()

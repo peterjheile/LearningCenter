@@ -2,8 +2,10 @@ import pygame
 import sys
 sys.path.append("AllObstacles")
 sys.path.append("Generators")
+sys.path.append("AllCreatures")
 from AllObstacles.ObstacleClass import Obstacle
 from Generators.GeneratorClass import Generator
+from AllCreatures.CreatureClass import Creature
 
 class Map:
     def __init__(self,width = 800, height = 650):
@@ -13,17 +15,23 @@ class Map:
         self.y = 0
         self.color = (0,100,0)
         self.allObstacles = Generator.generateAllObstacle(self.width,self.height)
+        self.allCreatures = Generator.generateAllCreatures(self.width,self.height)
 
     def drawMap(self,display):
         pygame.draw.rect(display, self.color, (self.x,self.y,self.width,self.height))
 
     def drawAllObstacles(self,display):
         for i in self.allObstacles:
-            pygame.draw.rect(display,i.color,(i.x,i.y,i.width,i.height))
+            i.draw(display)
+
+    def drawAllCreatures(self,display):
+        for i in self.allObstacles:
+            i.draw(display)
 
     def draw(self,display):
         self.drawMap(display)
         self.drawAllObstacles(display)
+        self.drawAllCreatures(display)
 
     
 
