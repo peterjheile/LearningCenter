@@ -12,4 +12,4 @@ class Generator:
         return [Obstacle(xRange,yRange) for i in range(randint(10,20))]
     @classmethod
     def generateAllCreatures(self,xRange,yRange):
-        return [Creature(xRange,yRange) for i in range(randint(20,50))]
+        return [Creature(xRange,yRange) for i in range(randint(10,30))]

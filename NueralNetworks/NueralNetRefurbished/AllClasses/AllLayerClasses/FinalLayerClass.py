@@ -1,9 +1,8 @@
 import sys
+sys.path.append("C:\\Users\\peter\\OneDrive\\Documents\\Peter Heile GitHub\\LearningCenter")
 
-sys.path.append("AllNeuronClasses")
-
-from AllLayerClasses.LayerClass import Layer
-from AllNeuronClasses.FinalNeuronClass import FinalNeuron
+from NueralNetworks.NueralNetRefurbished.AllClasses.AllLayerClasses.LayerClass import Layer
+from NueralNetworks.NueralNetRefurbished.AllClasses.AllNeuronClasses.FinalNeuronClass import FinalNeuron
 
 class FinalLayer(Layer):
     def __init__(self, inputs):

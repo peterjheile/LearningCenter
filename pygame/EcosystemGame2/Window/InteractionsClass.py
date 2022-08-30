@@ -1,5 +1,6 @@
 from random import randint
 import sys
+import math
 sys.path.append("Map")
 from Maps.MapClass import Map
 
@@ -12,12 +13,47 @@ class Interactions:
             i.x += displacement[0]
             i.y += displacement[1]
         for i in creatures:
-            i.x += displacement[0] + Interactions.creatureMove()
-            i.y += displacement[1] + Interactions.creatureMove()
+            movement = Interactions.creatureMove(i,map,obstacles)
+            i.x += displacement[0] + Interactions.tanh(movement[0])
+            i.y += displacement[1] +Interactions.tanh(movement[1])
 
     @classmethod
-    def creatureMove(Interactions):
-        return randint(-1,1)
+    def tanh(Interactions, num):
+        if math.isnan(num):
+            return 0
+        else:
+            return 1/(1+math.e**-num) - .5
+
+    @classmethod
+    def creatureMove(Interactions,i,map,obstacles):
+        movement = Interactions.getMoveFactors(i,map,obstacles)
+        return i.brain.calculate(movement)
+
+    @classmethod
+    def getMoveFactors(Interactions,cre,map,obstacles):
+        #gets the closest obstacle and passes the distance as a move factor
+        closest,obstacle = 100000,obstacles[0]
+        for obs in obstacles:
+            distance = math.dist((cre.x,cre.y),(obs.x,obs.y))
+            if distance < closest:
+                closest,obstacle = distance,obs
+        closest = closest
+
+        #distance to the corner of the map
+        mapDistance = math.dist((cre.x,cre.y),(map.x,map.y))
+
+        #finds angle of closest obstacle
+        xDist = (obstacle.x - cre.x) if (obstacle.x - cre.x != 0) else 1
+        yDist = (obstacle.y - cre.y)
+        angle = math.degrees((math.atan(abs(yDist)/abs(xDist))))
+        if (xDist < 0 and yDist > 0):
+            angle = angle+90
+        elif (xDist < 0 and yDist < 0):
+            angle = angle + 180
+        elif (xDist > 0 and yDist < 0):
+            angle = angle + 270
+        return [angle,closest, mapDistance]
+        
 
     @classmethod
     def eliminateCreatures(Interactions, map,obstacles, creatures):

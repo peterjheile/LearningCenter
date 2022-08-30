@@ -1,4 +1,6 @@
-from AllNeuronClasses.NeuronClass import Neuron
+import sys
+sys.path.append("C:\\Users\\peter\\OneDrive\\Documents\\Peter Heile GitHub\\LearningCenter")
+from NueralNetworks.NueralNetRefurbished.AllClasses.AllNeuronClasses.NeuronClass import Neuron
 import math
 
 class FinalNeuron(Neuron):

@@ -1,8 +1,8 @@
 from sys import getallocatedblocks
 import sys 
-sys.path.append("AllNeuronClasses")
-from AllLayerClasses.LayerClass import Layer
-from AllNeuronClasses.MidNeuronClass import MidNeuron
+sys.path.append("C:\\Users\\peter\\OneDrive\\Documents\\Peter Heile GitHub\\LearningCenter")
+from NueralNetworks.NueralNetRefurbished.AllClasses.AllLayerClasses.LayerClass import Layer
+from NueralNetworks.NueralNetRefurbished.AllClasses.AllNeuronClasses.MidNeuronClass import MidNeuron
 import random
 
 class MidLayer(Layer):

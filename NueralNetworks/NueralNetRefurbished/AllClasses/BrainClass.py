@@ -1,11 +1,8 @@
 import sys
-
-sys.path.append("AllLayerClasses")
-sys.path.append("AllNeuronClasses")
-
-from AllLayerClasses.MidLayerClass import MidLayer
-from AllLayerClasses.FinalLayerClass import FinalLayer
-from AllNeuronClasses.FinalNeuronClass import FinalNeuron
+sys.path.append("C:\\Users\\peter\\OneDrive\\Documents\\Peter Heile GitHub\\LearningCenter")
+from NueralNetworks.NueralNetRefurbished.AllClasses.AllLayerClasses.MidLayerClass import MidLayer
+from NueralNetworks.NueralNetRefurbished.AllClasses.AllLayerClasses.FinalLayerClass import FinalLayer
+from NueralNetworks.NueralNetRefurbished.AllClasses.AllNeuronClasses.FinalNeuronClass import FinalNeuron
 
 class Brain:
     def __init__(self, neuronsEachLayer, initialInputs):
