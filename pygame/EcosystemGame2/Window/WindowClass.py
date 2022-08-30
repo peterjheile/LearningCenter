@@ -24,8 +24,8 @@ class Window:
     def createGUI(self):
         self.gui = GUI()
 
-    def updateDisplay(self, displacement):
-        Interactions.displaceScreen(self.map,self.map.allObstacles,self.map.allCreatures,displacement)
+    def updateDisplay(self, displacement,all = True):
+        Interactions.displaceScreen(self.map,self.map.allObstacles,self.map.allCreatures,displacement,all)
         Interactions.eliminateCreatures(self.map, self.map.allObstacles,self.map.allCreatures)
         self.display.fill(self.color)
         self.map.draw(self.display)

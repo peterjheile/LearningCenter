@@ -6,20 +6,14 @@ class GUI:
         self.startButton = StartButton()
         self.pauseButton = PauseButton()
         self.buttons = [self.startButton,self.pauseButton]
-        self.tick = 60
 
     def draw(self,display):
         for i in self.buttons:
             i.draw(display)
 
-    def update(self,mousePos):
-        self.updateTick(mousePos)
+    def update(self,mousePos,window):
+        self.pauseButton.checkClicked(mousePos,self.startButton,window)
 
-    def updateTick(self,mousePos):
-        for i in self.buttons:
-            if i.checkClicked(mousePos):
-                self.tick = i.tick
-                break
     
 
 

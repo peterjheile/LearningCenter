@@ -14,8 +14,7 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONUP:
-            window.gui.update(pygame.mouse.get_pos())
-            clock.tick(window.gui.tick)
+            window.gui.update(pygame.mouse.get_pos(),window)
 
     keys = pygame.key.get_pressed()
 
@@ -31,4 +30,4 @@ while True:
         movement[1] -=5
 
     window.updateDisplay(movement)
-    clock.tick(window.gui.tick)
+    clock.tick(60)

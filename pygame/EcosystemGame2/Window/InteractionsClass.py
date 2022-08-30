@@ -6,7 +6,7 @@ from Maps.MapClass import Map
 
 class Interactions:
     @classmethod
-    def displaceScreen(Interactions,map,obstacles,creatures,displacement):
+    def displaceScreen(Interactions,map,obstacles,creatures,displacement, all):
         map.x += displacement[0]
         map.y += displacement[1]
         for i in obstacles:
@@ -14,8 +14,14 @@ class Interactions:
             i.y += displacement[1]
         for i in creatures:
             movement = Interactions.creatureMove(i,map,obstacles)
-            i.x += displacement[0] + Interactions.tanh(movement[0])
-            i.y += displacement[1] +Interactions.tanh(movement[1])
+            if all:
+                i.x += displacement[0] + Interactions.tanh(movement[0])
+                i.y += displacement[1] +Interactions.tanh(movement[1])
+            else:
+                i.x += displacement[0] 
+                i.y += displacement[1]
+
+        
 
     @classmethod
     def tanh(Interactions, num):
