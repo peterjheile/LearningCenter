@@ -6,7 +6,6 @@ from Window.WindowClass import Window
 pygame.init()
 
 window = Window()
-map = map
 clock = pygame.time.Clock()
 
 while True:
@@ -14,6 +13,9 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.MOUSEBUTTONUP:
+            window.gui.update(pygame.mouse.get_pos())
+            clock.tick(window.gui.tick)
 
     keys = pygame.key.get_pressed()
 
@@ -29,4 +31,4 @@ while True:
         movement[1] -=5
 
     window.updateDisplay(movement)
-    clock.tick(60)
+    clock.tick(window.gui.tick)

@@ -3,6 +3,7 @@ import sys
 sys.path.append("Map")
 from Maps.MapClass import Map
 from Window.InteractionsClass import Interactions
+from Window.GuiClass import GUI
 
 class Window:
     def __init__ (self):
@@ -11,6 +12,7 @@ class Window:
         self.color = (255,0,0)
         self.createDisplay()
         self.createMap()
+        self.createGUI()
 
     def createDisplay(self):
         self.display = pygame.display.set_mode((self.length,self.width))
@@ -19,9 +21,13 @@ class Window:
     def createMap(self):
         self.map = Map()
 
+    def createGUI(self):
+        self.gui = GUI()
+
     def updateDisplay(self, displacement):
         Interactions.displaceScreen(self.map,self.map.allObstacles,self.map.allCreatures,displacement)
         Interactions.eliminateCreatures(self.map, self.map.allObstacles,self.map.allCreatures)
         self.display.fill(self.color)
         self.map.draw(self.display)
+        self.gui.draw(self.display)
         pygame.display.update()
