@@ -21,8 +21,7 @@ class Interactions:
                 i.x += displacement[0] 
                 i.y += displacement[1]
 
-        
-
+    
     @classmethod
     def tanh(Interactions, num):
         if math.isnan(num):

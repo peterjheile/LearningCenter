@@ -1,6 +1,6 @@
 import pygame
 import sys
-# from Window.WindowClass import Window
+import pickle
 
 class Button:
     def __init__(self):
@@ -30,11 +30,11 @@ class PauseButton(Button):
         self.y = 105
         self.tick = 1
 
-    def checkClicked(self,clickPos,startButton,window):
+    def checkClicked(self,clickPos,startButton,saveButton,display,window):
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
-            self.pause(startButton,window)
+            self.pause(startButton,saveButton,display,window)
                     
-    def pause(self,startButton,window):
+    def pause(self,startButton,saveButton,display,window):
         clock = pygame.time.Clock()
         continues = True
         while continues:
@@ -45,6 +45,8 @@ class PauseButton(Button):
                 if event.type == pygame.MOUSEBUTTONUP:
                     if startButton.checkClicked(pygame.mouse.get_pos()):
                         continues = False
+                    saveButton.save(window)
+
             keys = pygame.key.get_pressed()
             movement = [0,0]
             if keys[pygame.K_a]:
@@ -55,8 +57,24 @@ class PauseButton(Button):
                 movement[1] +=5
             if keys[pygame.K_s]:
                 movement[1] -=5
-            window.updateDisplay(movement,False)
+            window.updateDisplay(movement,display,False)
             clock.tick(60)
+
+class SaveButton(Button):
+    def __init__(self):
+        super().__init__()
+        self.x = 5
+        self.y = 210
+        self.tick = 1
+
+    def checkClicked(self,clickPos,window):
+        if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
+            self.save(window)
+
+    def save(self,window):
+        with open("EcoOutputData","wb") as file:
+            pickle.dump(window,file)
+    
 
 
 

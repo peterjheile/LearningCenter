@@ -9,7 +9,7 @@ from AllCreatures.CreatureClass import Creature
 class Generator:
     @classmethod
     def generateAllObstacle(self,xRange,yRange):
-        return [Obstacle(xRange,yRange) for i in range(randint(10,20))]
+        return [Obstacle(xRange,yRange) for i in range(randint(50,100))]
     @classmethod
     def generateAllCreatures(self,xRange,yRange):
-        return [Creature(xRange,yRange) for i in range(randint(10,30))]
+        return [Creature(xRange,yRange) for i in range(randint(50,100))]

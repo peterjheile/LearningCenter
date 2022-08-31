@@ -9,8 +9,8 @@ from AllCreatures.CreatureClass import Creature
 
 class Map:
     def __init__(self,width = 800, height = 650):
-        self.width = 800
-        self.height = 650
+        self.width = 3000
+        self.height = 3000
         self.x = 0
         self.y = 0
         self.color = (0,100,0)
