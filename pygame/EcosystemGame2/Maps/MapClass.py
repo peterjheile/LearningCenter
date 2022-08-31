@@ -16,6 +16,8 @@ class Map:
         self.color = (0,100,0)
         self.allObstacles = Generator.generateAllObstacle(self.width,self.height)
         self.allCreatures = Generator.generateAllCreatures(self.width,self.height)
+        self.zoom = 1
+        self.allow = True
 
     def drawMap(self,display):
         pygame.draw.rect(display, self.color, (self.x,self.y,self.width,self.height))

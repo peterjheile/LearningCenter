@@ -1,12 +1,14 @@
 from random import randint
 import sys
 import math
+import pygame
 sys.path.append("Map")
 from Maps.MapClass import Map
 
 class Interactions:
     @classmethod
-    def displaceScreen(Interactions,map,obstacles,creatures,displacement, all):
+    def displaceScreen(Interactions,map,obstacles,creatures,displacement, all,zoom = 0):
+        Interactions.zoom(map,zoom)
         map.x += displacement[0]
         map.y += displacement[1]
         for i in obstacles:
@@ -15,13 +17,61 @@ class Interactions:
         for i in creatures:
             movement = Interactions.creatureMove(i,map,obstacles)
             if all:
-                i.x += displacement[0] + Interactions.tanh(movement[0])
-                i.y += displacement[1] +Interactions.tanh(movement[1])
+                i.x += displacement[0] + Interactions.adjustMovements(zoom,map,Interactions.tanh(movement[0]))
+                i.y += displacement[1] + Interactions.adjustMovements(zoom,map,Interactions.tanh(movement[1]))
             else:
                 i.x += displacement[0] 
                 i.y += displacement[1]
 
-    
+    @classmethod
+    def zoom(self,map,zoom = 0):
+        if zoom == 1:
+            map.width = map.width*1.2
+            map.height = map.height*1.2
+            map.x = map.x*1.2
+            map.y = map.y*1.2
+            for i in map.allObstacles:
+                i.width = i.width*1.2
+                i.height = i.height*1.2
+                i.x = i.x*1.2
+                i.y = i.y*1.2
+            for i in map.allCreatures:
+                i.width = i.width*1.2
+                i.height = i.height*1.2
+                i.x = i.x*1.2
+                i.y = i.y*1.2
+
+        elif (zoom == -1):
+            map.width = map.width/1.2
+            map.height = map.height/1.2
+            map.x = map.x/1.2
+            map.y = map.y/1.2
+            for i in map.allObstacles:
+                i.width = i.width/1.2
+                i.height = i.height/1.2
+                i.x = i.x/1.2
+                i.y = i.y/1.2
+            for i in map.allCreatures:
+                i.width = i.width/1.2
+                i.height = i.height/1.2
+                i.x = i.x/1.2
+                i.y = i.y/1.2
+        
+    @classmethod
+    def adjustMovements(self,zoom,map,movement):
+        if zoom == 0:
+            map.allowed = True
+        if map.allowed:
+            if zoom == 1:
+                # print(zoom)
+                map.zoom = map.zoom*1.2
+                map.allowed = False
+            elif zoom ==-1:
+                # print(zoom)
+                map.zoom = map.zoom/1.2
+                map.allowed = False
+        return movement*map.zoom
+
     @classmethod
     def tanh(Interactions, num):
         if math.isnan(num):

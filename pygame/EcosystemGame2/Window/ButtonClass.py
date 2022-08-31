@@ -1,6 +1,7 @@
 import pygame
 import sys
 import pickle
+from Window.WindowClass import Interactions
 
 class Button:
     def __init__(self):
@@ -28,13 +29,12 @@ class PauseButton(Button):
         super().__init__()
         self.x = 5
         self.y = 105
-        self.tick = 1
 
-    def checkClicked(self,clickPos,startButton,saveButton,display,window):
+    def checkClicked(self,clickPos,buttons,display,window):
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
-            self.pause(startButton,saveButton,display,window)
+            self.pause(buttons,display,window)
                     
-    def pause(self,startButton,saveButton,display,window):
+    def pause(self,buttons,display,window):
         clock = pygame.time.Clock()
         continues = True
         while continues:
@@ -43,9 +43,12 @@ class PauseButton(Button):
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONUP:
-                    if startButton.checkClicked(pygame.mouse.get_pos()):
+                    if buttons[0].checkClicked(pygame.mouse.get_pos()):
                         continues = False
-                    saveButton.save(window)
+                    buttons[2].checkClicked(pygame.mouse.get_pos(),window)
+                    buttons[3].checkClicked(pygame.mouse.get_pos(),window,display)
+                    buttons[4].checkClicked(pygame.mouse.get_pos(),window,display)
+
 
             keys = pygame.key.get_pressed()
             movement = [0,0]
@@ -65,7 +68,6 @@ class SaveButton(Button):
         super().__init__()
         self.x = 5
         self.y = 210
-        self.tick = 1
 
     def checkClicked(self,clickPos,window):
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
@@ -74,6 +76,32 @@ class SaveButton(Button):
     def save(self,window):
         with open("EcoOutputData","wb") as file:
             pickle.dump(window,file)
+
+class ZoomOutButton(Button):
+    def __init__(self):
+        super().__init__()
+        self.x = 5
+        self.y = 315
+        
+    def checkClicked(self,clickPos,window,display):
+        if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
+            self.zoomOut(window,display)
+
+    def zoomOut(self,window,display):
+        window.updateDisplay([0,0],display,True,-1)
+
+class ZoomInButton(Button):
+    def __init__(self):
+        super().__init__()
+        self.x = 5
+        self.y = 420
+        
+    def checkClicked(self,clickPos,window,display):
+        if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
+            self.zoomIn(window,display)
+
+    def zoomIn(self,window,display):
+        window.updateDisplay([0,0],display,True,1)
     
 
 
