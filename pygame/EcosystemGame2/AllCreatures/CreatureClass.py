@@ -15,3 +15,6 @@ class Creature:
 
     def draw(self,display):
         pygame.draw.rect(display, self.color, (self.x,self.y,self.width,self.height))
+
+    def reproduce(self, display):
+        pass

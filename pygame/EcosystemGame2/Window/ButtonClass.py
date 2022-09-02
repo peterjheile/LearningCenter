@@ -4,17 +4,25 @@ import pickle
 from Window.WindowClass import Interactions
 
 class Button:
-    def __init__(self):
+    def __init__(self, text = ""):
         self.width = 200
         self.height = 100
         self.color = (221,160,221)
+        self.text = text
 
     def draw(self,display):
         pygame.draw.rect(display, self.color, (self.x,self.y,self.width,self.height))
+        self.showText(display)
+
+    def showText(self,display):
+        font = pygame.font.SysFont(None, 50)
+        img = font.render(self.text, True, (0,0,255))
+        display.blit(img, (self.x+10,self.y+30))
+
 
 class StartButton(Button):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, text):
+        super().__init__(text)
         self.x = 5
         self.y = 0
         self.tick = 60
@@ -25,8 +33,8 @@ class StartButton(Button):
         return False
 
 class PauseButton(Button):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, text):
+        super().__init__(text)
         self.x = 5
         self.y = 105
 
@@ -64,8 +72,8 @@ class PauseButton(Button):
             clock.tick(60)
 
 class SaveButton(Button):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,text):
+        super().__init__(text)
         self.x = 5
         self.y = 210
 
@@ -78,10 +86,10 @@ class SaveButton(Button):
             pickle.dump(window,file)
 
 class ZoomOutButton(Button):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,text):
+        super().__init__(text)
         self.x = 5
-        self.y = 315
+        self.y = 420
         
     def checkClicked(self,clickPos,window,display):
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
@@ -91,10 +99,10 @@ class ZoomOutButton(Button):
         window.updateDisplay([0,0],display,True,-1)
 
 class ZoomInButton(Button):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,text):
+        super().__init__(text)
         self.x = 5
-        self.y = 420
+        self.y = 315
         
     def checkClicked(self,clickPos,window,display):
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):

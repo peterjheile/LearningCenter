@@ -1,4 +1,5 @@
 import sys
+from random import randint
 sys.path.append("C:\\Users\\peter\\OneDrive\\Documents\\Peter Heile GitHub\\LearningCenter")
 from NueralNetworks.NueralNetRefurbished.AllClasses.AllLayerClasses.MidLayerClass import MidLayer
 from NueralNetworks.NueralNetRefurbished.AllClasses.AllLayerClasses.FinalLayerClass import FinalLayer
@@ -27,10 +28,20 @@ class Brain:
             inputs = i.layerOutputs
         return self.Layers[len(self.Layers)-1].layerOutputs
 
+# #cpu intensive, all weights are changed in this learn method
     def learn(self):
         for i in range(len(self.Layers)-1):
             self.Layers[i].learn()
         self.calculate(self.initialInputs)
+
+#not cpu intensive, only one weight is changed
+    # def learn(self):
+    #     layerNum = randint(0,len(self.Layers)-2)
+    #     print("Layer", layerNum ,"weights changed")
+    #     self.Layers[layerNum].learn()
+    #     self.calculate(self.initialInputs)
+
+
 
 
     # def getInfo(self):

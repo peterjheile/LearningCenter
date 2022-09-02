@@ -138,3 +138,8 @@ class Interactions:
             return ((o1.x+o1.width>o2.x+o2.width) or (o1.x<o2.x) or (o1.y+o1.height>o2.y+o2.height) or (o1.y<o2.y))
         else:
             return not(((o1.x+o1.width)<o2.x or o1.x>(o2.x+o2.width))or((o1.y+o1.height)<o2.y or o1.y > (o2.y+o2.height)))
+
+    @classmethod
+    def creaturesLearn(self, map):
+        for i in map.allCreatures:
+            i.brain.learn()

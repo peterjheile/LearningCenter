@@ -6,11 +6,11 @@ from Window.ButtonClass import ZoomOutButton
 
 class GUI:
     def __init__(self):
-        self.startButton = StartButton()
-        self.pauseButton = PauseButton()
-        self.saveButton = SaveButton()
-        self.ZoomInButton = ZoomInButton()
-        self.ZoomOutButton = ZoomOutButton()
+        self.startButton = StartButton("Start")
+        self.pauseButton = PauseButton("Pause")
+        self.saveButton = SaveButton("Save")
+        self.ZoomInButton = ZoomInButton("Zoom In")
+        self.ZoomOutButton = ZoomOutButton("Zoom out")
         self.buttons = [self.startButton,self.pauseButton,self.saveButton,self.ZoomInButton,self.ZoomOutButton]
 
     def draw(self,display):
