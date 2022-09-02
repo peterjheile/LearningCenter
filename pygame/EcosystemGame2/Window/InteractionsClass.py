@@ -95,8 +95,11 @@ class Interactions:
                 closest,obstacle = distance,obs
         closest = closest
 
-        #distance to the corner of the map
-        mapDistance = math.dist((cre.x,cre.y),(map.x,map.y))
+        #distance to each side of the map
+        lBord = cre.x
+        rBord = map.width - cre.x
+        tBord = cre.y
+        bBord = map.height - cre.y
 
         #finds angle of closest obstacle
         xDist = (obstacle.x - cre.x) if (obstacle.x - cre.x != 0) else 1
@@ -108,7 +111,7 @@ class Interactions:
             angle = angle + 180
         elif (xDist > 0 and yDist < 0):
             angle = angle + 270
-        return [angle,closest, mapDistance]
+        return [angle, closest, lBord, rBord, tBord, bBord]
         
 
     @classmethod
@@ -149,6 +152,6 @@ class Interactions:
     def reproduce(self,map):
         numCreatures = len(map.allCreatures)
         for i in range(numCreatures):
-            print("Creature reproduced")
-            map.allCreatures = map.allCreatures + [copy.deepcopy(map.allCreatures[i])]
-        
+            other = copy.deepcopy(map.allCreatures[i])
+            other.x += 20
+            map.allCreatures.append(other)

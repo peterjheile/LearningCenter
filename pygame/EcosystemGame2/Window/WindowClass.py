@@ -27,7 +27,6 @@ class Window:
     def updateDisplay(self, displacement,display,all = True,zoom = 0):
         Interactions.displaceScreen(self.map,self.map.allObstacles,self.map.allCreatures,displacement,all,zoom)
         Interactions.eliminateCreatures(self.map, self.map.allObstacles,self.map.allCreatures)
-        Interactions.creaturesLearn(self.map)
         display.fill((255,0,0))
         self.map.draw(display)
         self.gui.draw(display)

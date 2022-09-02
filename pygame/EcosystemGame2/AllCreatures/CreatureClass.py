@@ -11,10 +11,8 @@ class Creature:
         self.color = (255,255,0)
         self.x = randint(0,xRange - self.width)
         self.y = randint(0,yRange - self.height)
-        self.brain = Brain([3,5,5,2],[1,1,1])
+        self.brain = Brain([6,10,10,2],[1,1,1,1,1,1])
 
     def draw(self,display):
         pygame.draw.rect(display, self.color, (self.x,self.y,self.width,self.height))
 
-    def reproduce(self, display):
-        pass

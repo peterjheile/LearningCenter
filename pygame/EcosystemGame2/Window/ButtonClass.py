@@ -123,6 +123,7 @@ class ReproduceButton(Button):
         
     def reproduce(self, map):
         Interactions.reproduce(map)
+        Interactions.creaturesLearn(map)
     
 
     
