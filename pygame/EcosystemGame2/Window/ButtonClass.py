@@ -110,6 +110,21 @@ class ZoomInButton(Button):
 
     def zoomIn(self,window,display):
         window.updateDisplay([0,0],display,True,1)
+
+class ReproduceButton(Button):
+    def __init__(self,text):
+        super().__init__(text)
+        self.x = 5
+        self.y = 525
+
+    def checkClicked(self,clickPos,window):
+        if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
+            self.reproduce(window.map)
+        
+    def reproduce(self, map):
+        Interactions.reproduce(map)
+    
+
     
 
 

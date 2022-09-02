@@ -4,6 +4,7 @@ import math
 import pygame
 sys.path.append("Map")
 from Maps.MapClass import Map
+import copy
 
 class Interactions:
     @classmethod
@@ -143,3 +144,11 @@ class Interactions:
     def creaturesLearn(self, map):
         for i in map.allCreatures:
             i.brain.learn()
+
+    @classmethod
+    def reproduce(self,map):
+        numCreatures = len(map.allCreatures)
+        for i in range(numCreatures):
+            print("Creature reproduced")
+            map.allCreatures = map.allCreatures + [copy.deepcopy(map.allCreatures[i])]
+        

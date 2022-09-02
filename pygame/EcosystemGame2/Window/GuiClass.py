@@ -3,6 +3,7 @@ from Window.ButtonClass import PauseButton
 from Window.ButtonClass import SaveButton
 from Window.ButtonClass import ZoomInButton
 from Window.ButtonClass import ZoomOutButton
+from Window.ButtonClass import ReproduceButton
 
 class GUI:
     def __init__(self):
@@ -11,7 +12,8 @@ class GUI:
         self.saveButton = SaveButton("Save")
         self.ZoomInButton = ZoomInButton("Zoom In")
         self.ZoomOutButton = ZoomOutButton("Zoom out")
-        self.buttons = [self.startButton,self.pauseButton,self.saveButton,self.ZoomInButton,self.ZoomOutButton]
+        self.reproduceButton = ReproduceButton("Reproduce")
+        self.buttons = [self.startButton,self.pauseButton,self.saveButton,self.ZoomInButton,self.ZoomOutButton,self.reproduceButton]
 
     def draw(self,display):
         for i in self.buttons:
@@ -22,6 +24,7 @@ class GUI:
         self.saveButton.checkClicked(mousePos,window)
         self.ZoomInButton.checkClicked(mousePos,window,display)
         self.ZoomOutButton.checkClicked(mousePos,window,display)
+        self.reproduceButton.checkClicked(mousePos,window)
 
         
 
