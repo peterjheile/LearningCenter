@@ -96,10 +96,10 @@ class Interactions:
         closest = closest
 
         #distance to each side of the map
-        lBord = cre.x
-        rBord = map.width - cre.x
-        tBord = cre.y
-        bBord = map.height - cre.y
+        lBord = (cre.x - map.x)
+        rBord = (map.x+map.width) - cre.x
+        tBord = (cre.y - map.y)
+        bBord = (map.y+map.height) - cre.y
 
         #finds angle of closest obstacle
         xDist = (obstacle.x - cre.x) if (obstacle.x - cre.x != 0) else 1
@@ -111,7 +111,11 @@ class Interactions:
             angle = angle + 180
         elif (xDist > 0 and yDist < 0):
             angle = angle + 270
-        return [angle, closest, lBord, rBord, tBord, bBord]
+
+        factors = [angle, closest, lBord, rBord, tBord, bBord]
+        updatedFactors = [i*map.zoom for i in factors]
+        
+        return updatedFactors
         
 
     @classmethod
