@@ -19,6 +19,11 @@ class Button:
         img = font.render(self.text, True, (0,0,255))
         display.blit(img, (self.x+10,self.y+30))
 
+    def checkClicked(self, clickPos):
+        if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
+            return True
+        return False
+
 
 class StartButton(Button):
     def __init__(self, text):
@@ -27,7 +32,9 @@ class StartButton(Button):
         self.y = 0
         self.tick = 60
 
-    def checkClicked(self,clickPos):
+    def checkClicked(self,clickPos, parent = False):
+        if parent:
+            return super().checkClicked(clickPos)
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
             return True
         return False
@@ -38,9 +45,12 @@ class PauseButton(Button):
         self.x = 5
         self.y = 105
 
-    def checkClicked(self,clickPos,buttons,display,window):
-        if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
-            self.pause(buttons,display,window)
+    def checkClicked(self,clickPos,buttons,display,window, parent = False):
+        if parent:
+            return super().checkClicked(clickPos)
+        else: 
+            if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
+                self.pause(buttons,display,window)
                     
     def pause(self,buttons,display,window):
         clock = pygame.time.Clock()
@@ -56,6 +66,7 @@ class PauseButton(Button):
                     buttons[2].checkClicked(pygame.mouse.get_pos(),window)
                     buttons[3].checkClicked(pygame.mouse.get_pos(),window,display)
                     buttons[4].checkClicked(pygame.mouse.get_pos(),window,display)
+                    buttons[5].checkClicked(pygame.mouse.get_pos(),window,display)
 
 
             keys = pygame.key.get_pressed()
@@ -77,7 +88,9 @@ class SaveButton(Button):
         self.x = 5
         self.y = 210
 
-    def checkClicked(self,clickPos,window):
+    def checkClicked(self,clickPos,window, parent = False):
+        if parent:
+            return super().checkClicked(clickPos)
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
             self.save(window)
 
@@ -91,7 +104,9 @@ class ZoomOutButton(Button):
         self.x = 5
         self.y = 420
         
-    def checkClicked(self,clickPos,window,display):
+    def checkClicked(self,clickPos,window,display, parent = False):
+        if parent:
+            return super().checkClicked(clickPos)
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
             self.zoomOut(window,display)
 
@@ -104,7 +119,9 @@ class ZoomInButton(Button):
         self.x = 5
         self.y = 315
         
-    def checkClicked(self,clickPos,window,display):
+    def checkClicked(self,clickPos,window,display, parent = False):
+        if parent:
+            return super().checkClicked(clickPos)
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
             self.zoomIn(window,display)
 
@@ -117,13 +134,103 @@ class ReproduceButton(Button):
         self.x = 5
         self.y = 525
 
-    def checkClicked(self,clickPos,window):
+    def checkClicked(self,clickPos,window, parent = False):
+        if parent:
+            print(super().checkClicked(clickPos))
+            return super().checkClicked(clickPos)
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
             self.reproduce(window.map)
         
     def reproduce(self, map):
         Interactions.reproduce(map)
         Interactions.creaturesLearn(map)
+
+class ChangeLayoutButton(Button):
+    def __init__(self,text):
+        super().__init__(text)
+        self.x = 5
+        self.y = 630
+
+    def checkClicked(self,clickPos,buttons,display,window, stopEdit = False):
+        if not(stopEdit):
+            if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
+                self.editLayout(buttons,window,display)
+        print(super().checkClicked(clickPos))
+        return super().checkClicked(clickPos)
+
+    def editLayout(self,buttons,window,display):
+
+        def editCoords(button, display):
+            clock = pygame.time.Clock()
+            continues = True
+            print("Got to editCoords")
+            while continues:
+                print("entered loop")
+                for event in pygame.event.get():
+                    print(event)
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == pygame.MOUSEBUTTONUP:
+                        continues = False
+                        break
+                    coords = pygame.mouse.get_pos()
+                    button.x = coords[0]
+                    button.y = coords[1]
+
+                    keys = pygame.key.get_pressed()
+                    movement = [0,0]
+                    if keys[pygame.K_a]:
+                        movement[0] +=5
+                    if keys[pygame.K_d]:
+                        movement[0] -=5
+                    if keys[pygame.K_w]:
+                        movement[1] +=5
+                    if keys[pygame.K_s]:
+                        movement[1] -=5
+
+                    window.updateDisplay(movement,display,True)
+                    clock.tick(60)
+
+        clock = pygame.time.Clock()
+        continues = True
+        while continues:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                pygame.event.wait(10)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if buttons[6].checkClicked(pygame.mouse.get_pos(), buttons, display, window, True):
+                        continues = False
+                        break
+                    if buttons[0].checkClicked(pygame.mouse.get_pos(), True):
+                        editCoords(buttons[0], display)
+                    elif buttons[1].checkClicked(pygame.mouse.get_pos(),buttons,display,window, True):
+                        editCoords(buttons[1], display)
+                    elif buttons[2].checkClicked(pygame.mouse.get_pos(),window, True):
+                        editCoords(buttons[2], display)
+                    elif buttons[3].checkClicked(pygame.mouse.get_pos(),window,display, True):
+                        editCoords(buttons[3], display)
+                    elif buttons[4].checkClicked(pygame.mouse.get_pos(),window,display, True):
+                        editCoords(buttons[4], display)
+                    elif buttons[5].checkClicked(pygame.mouse.get_pos(),window, True):
+                        editCoords(buttons[5], display)
+
+            keys = pygame.key.get_pressed()
+            movement = [0,0]
+            if keys[pygame.K_a]:
+                movement[0] +=5
+            if keys[pygame.K_d]:
+                movement[0] -=5
+            if keys[pygame.K_w]:
+                movement[1] +=5
+            if keys[pygame.K_s]:
+                movement[1] -=5
+
+            window.updateDisplay(movement,display,True)
+            clock.tick(60)
+
     
 
     

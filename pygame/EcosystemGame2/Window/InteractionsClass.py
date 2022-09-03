@@ -15,6 +15,9 @@ class Interactions:
         for i in obstacles:
             i.x += displacement[0]
             i.y += displacement[1]
+        for i in map.allFood:
+            i.x += displacement[0]
+            i.y += displacement[1]
         for i in creatures:
             movement = Interactions.creatureMove(i,map,obstacles)
             if all:
@@ -41,6 +44,11 @@ class Interactions:
                 i.height = i.height*1.2
                 i.x = i.x*1.2
                 i.y = i.y*1.2
+            for i in map.allFood:
+                i.width = i.width*1.2
+                i.height = i.height*1.2
+                i.x = i.x*1.2
+                i.y = i.y*1.2
 
         elif (zoom == -1):
             map.width = map.width/1.2
@@ -57,6 +65,12 @@ class Interactions:
                 i.height = i.height/1.2
                 i.x = i.x/1.2
                 i.y = i.y/1.2
+            for i in map.allFood:
+                i.width = i.width/1.2
+                i.height = i.height/1.2
+                i.x = i.x/1.2
+                i.y = i.y/1.2
+
         
     @classmethod
     def adjustMovements(self,zoom,map,movement):

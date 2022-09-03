@@ -16,6 +16,7 @@ class Map:
         self.color = (0,100,0)
         self.allObstacles = Generator.generateAllObstacle(self.width,self.height)
         self.allCreatures = Generator.generateAllCreatures(self.width,self.height)
+        self.allFood = Generator.generateAllFood(self.width,self.height)
         self.zoom = 1
         self.allow = True
 
@@ -30,10 +31,15 @@ class Map:
         for i in self.allCreatures:
             i.draw(display)
 
+    def drawAllFood(self, display):
+        for i in self.allFood:
+            i.draw(display)
+
     def draw(self,display):
         self.drawMap(display)
         self.drawAllObstacles(display)
         self.drawAllCreatures(display)
+        self.drawAllFood(display)
 
     
 
