@@ -136,7 +136,6 @@ class ReproduceButton(Button):
 
     def checkClicked(self,clickPos,window, parent = False):
         if parent:
-            print(super().checkClicked(clickPos))
             return super().checkClicked(clickPos)
         if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
             self.reproduce(window.map)
@@ -155,7 +154,6 @@ class ChangeLayoutButton(Button):
         if not(stopEdit):
             if (clickPos[0]>self.x and clickPos[0]<self.x+self.width) and (clickPos[1]>self.y and clickPos[1]<self.y+self.height):
                 self.editLayout(buttons,window,display)
-        print(super().checkClicked(clickPos))
         return super().checkClicked(clickPos)
 
     def editLayout(self,buttons,window,display):
@@ -163,11 +161,8 @@ class ChangeLayoutButton(Button):
         def editCoords(button, display):
             clock = pygame.time.Clock()
             continues = True
-            print("Got to editCoords")
             while continues:
-                print("entered loop")
                 for event in pygame.event.get():
-                    print(event)
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         sys.exit()
@@ -195,7 +190,6 @@ class ChangeLayoutButton(Button):
 
         clock = pygame.time.Clock()
         continues = True
-        print("started again")
         while continues:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

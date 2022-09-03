@@ -15,9 +15,9 @@ class Generator:
         return [Obstacle(xRange,yRange) for i in range(randint(50,100))]
 
     @classmethod
-    def generateAllCreatures(self,xRange,yRange):
-        return [Creature(xRange,yRange) for i in range(randint(50,100))]
+    def generateAllCreatures(self,xRange,yRange,mapX,mapY,zoom):
+        return [Creature(xRange,yRange,mapX,mapY,zoom) for i in range(randint(50,100))]
 
     @classmethod
-    def generateAllFood(self,xRange,yRange):
-        return [Food(xRange,yRange) for i in range(randint(50,100))]
+    def generateAllFood(self,xRange,yRange,mapX,mapY,zoom):
+        return [Food(xRange,yRange,mapX,mapY,zoom) for i in range(randint(50,100))]

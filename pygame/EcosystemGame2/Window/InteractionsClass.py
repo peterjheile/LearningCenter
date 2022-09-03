@@ -3,8 +3,14 @@ import sys
 import math
 import pygame
 sys.path.append("Map")
+sys.path.append("AllObstacles")
+sys.path.append("AllCreatures")
+from AllObstacles.FoodClass import Food
+from AllCreatures.CreatureClass import Creature
+
 from Maps.MapClass import Map
 import copy
+
 
 class Interactions:
     @classmethod
@@ -21,8 +27,13 @@ class Interactions:
         for i in creatures:
             movement = Interactions.creatureMove(i,map,obstacles)
             if all:
-                i.x += displacement[0] + Interactions.adjustMovements(zoom,map,Interactions.tanh(movement[0]))
-                i.y += displacement[1] + Interactions.adjustMovements(zoom,map,Interactions.tanh(movement[1]))
+                if i.energy >0:
+                    i.x += displacement[0] + Interactions.adjustMovements(zoom,map,Interactions.tanh(movement[0]))
+                    i.y += displacement[1] + Interactions.adjustMovements(zoom,map,Interactions.tanh(movement[1]))
+                    i.energy -= (1*map.zoom)
+                    Interactions.checkFoodCollision(map,map.allFood,i)
+                else:
+                    map.allCreatures.remove(i)
             else:
                 i.x += displacement[0] 
                 i.y += displacement[1]
@@ -109,6 +120,26 @@ class Interactions:
                 closest,obstacle = distance,obs
         closest = closest
 
+        #gets the closest Food and passes it as a move factor
+        closestFood, obsFood,distance = 100000,map.allFood[0],100000
+        for food in map.allFood:
+            distance = math.dist((cre.x,cre.y),(food.x,food.y))
+            if distance < closestFood:
+                closestFood, obsFood = distance,food
+            closestFood = closestFood
+
+        #gets the angle of the closest food
+        xDist = (obsFood.x - cre.x) if (obsFood.x - cre.x != 0) else 1
+        yDist = (obsFood.y - cre.y)
+        angleFood = math.degrees((math.atan(abs(yDist)/abs(xDist))))
+        if (xDist < 0 and yDist > 0):
+            angleFood = angleFood+90
+        elif (xDist < 0 and yDist < 0):
+            angleFood = angleFood + 180
+        elif (xDist > 0 and yDist < 0):
+            angleFood = angleFood + 270
+
+
         #distance to each side of the map
         lBord = (cre.x - map.x)
         rBord = (map.x+map.width) - cre.x
@@ -126,7 +157,7 @@ class Interactions:
         elif (xDist > 0 and yDist < 0):
             angle = angle + 270
 
-        factors = [angle, closest, lBord, rBord, tBord, bBord]
+        factors = [angle, closest, lBord, rBord, tBord, bBord, angleFood, closestFood,cre.energy]
         updatedFactors = [i*map.zoom for i in factors]
         
         return updatedFactors
@@ -173,3 +204,19 @@ class Interactions:
             other = copy.deepcopy(map.allCreatures[i])
             other.x += 20
             map.allCreatures.append(other)
+
+    @classmethod
+    def checkFoodCollision(self,map, allFood, cre):
+        for i in allFood:
+            if Interactions.checkCollision(cre,i):
+                cre.energy += 1000
+                allFood.remove(i)
+                allFood.append(Food(map.width,map.height,map.x,map.y,map.zoom))
+                cre = copy.deepcopy(cre)
+                cre.x += 30
+                map.allCreatures.append(cre)
+
+                
+            
+
+

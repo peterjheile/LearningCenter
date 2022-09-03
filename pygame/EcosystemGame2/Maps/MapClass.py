@@ -14,11 +14,12 @@ class Map:
         self.x = 0
         self.y = 0
         self.color = (0,100,0)
-        self.allObstacles = Generator.generateAllObstacle(self.width,self.height)
-        self.allCreatures = Generator.generateAllCreatures(self.width,self.height)
-        self.allFood = Generator.generateAllFood(self.width,self.height)
         self.zoom = 1
         self.allow = True
+        self.allObstacles = Generator.generateAllObstacle(self.width,self.height)
+        self.allCreatures = Generator.generateAllCreatures(self.width,self.height,self.x,self.y,self.zoom)
+        self.allFood = Generator.generateAllFood(self.width,self.height,self.x,self.y,self.zoom)
+
 
     def drawMap(self,display):
         pygame.draw.rect(display, self.color, (self.x,self.y,self.width,self.height))
