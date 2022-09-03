@@ -37,6 +37,7 @@ class MidLayer(Layer):
 
 #adjusts the weights of each neuron by a tiny amount (randomly)
     def learn(self):
+        self.layerBias += random.uniform(-.1,.1)
         for i in self.allNeurons:
             i.learn()
 

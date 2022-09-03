@@ -18,7 +18,7 @@ class MidNeuron(Neuron):
 
     def learn(self):
         for i in range(len(self.weights)):
-            self.weights[i] = self.weights[i] + random.uniform(-.1,.1)
+            self.weights[i] = self.weights[i] + random.uniform(-1,1)
 
 #uses the reLU activation function for mid layer nuerons
     def activationFunction(self, value):

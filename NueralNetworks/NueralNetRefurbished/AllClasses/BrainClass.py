@@ -29,17 +29,16 @@ class Brain:
         return self.Layers[len(self.Layers)-1].layerOutputs
 
 # #cpu intensive, all weights are changed in this learn method
-    def learn(self):
-        for i in range(len(self.Layers)-1):
-            self.Layers[i].learn()
-        self.calculate(self.initialInputs)
+    # def learn(self):
+    #     for i in range(len(self.Layers)-1):
+    #         self.Layers[i].learn()
+    #     self.calculate(self.initialInputs)
 
 #not cpu intensive, only one weight is changed
-    # def learn(self):
-    #     layerNum = randint(0,len(self.Layers)-2)
-    #     print("Layer", layerNum ,"weights changed")
-    #     self.Layers[layerNum].learn()
-    #     self.calculate(self.initialInputs)
+    def learn(self):
+        layerNum = randint(0,len(self.Layers)-2)
+        self.Layers[layerNum].learn()
+        self.calculate(self.initialInputs)
 
 
 

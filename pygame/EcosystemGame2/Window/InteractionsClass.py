@@ -157,10 +157,10 @@ class Interactions:
         elif (xDist > 0 and yDist < 0):
             angle = angle + 270
 
-        factors = [closest, lBord, rBord, tBord, bBord, closestFood]
+        factors = [closest/1000, lBord/map.width, rBord/map.width, tBord/map.height, bBord/map.height, closestFood/1000]
         updatedFactors = [i*map.zoom for i in factors]
-        updatedFactors += [angle,angleFood,cre.energy]
-        
+        updatedFactors += [angle/360,angleFood/360,cre.energy/2000]
+        # print(updatedFactors)
         return updatedFactors
         
 
@@ -194,8 +194,8 @@ class Interactions:
             return not(((o1.x+o1.width)<o2.x or o1.x>(o2.x+o2.width))or((o1.y+o1.height)<o2.y or o1.y > (o2.y+o2.height)))
 
     @classmethod
-    def creaturesLearn(self, map):
-        for i in map.allCreatures:
+    def creaturesLearn(self, map,toLearn):
+        for i in map.allCreatures[toLearn:]:
             i.brain.learn()
 
     @classmethod
@@ -217,6 +217,7 @@ class Interactions:
                 cre = copy.deepcopy(cre)
                 cre.x += randint(-300,300)
                 cre.y += randint(-300,300)
+                cre.brain.learn()
                 map.allCreatures.append(cre)
 
                 

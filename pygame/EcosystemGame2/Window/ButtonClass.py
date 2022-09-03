@@ -15,7 +15,7 @@ class Button:
         self.showText(display)
 
     def showText(self,display):
-        font = pygame.font.SysFont(None, 50)
+        font = pygame.font.SysFont(None, 25)
         img = font.render(self.text, True, (0,0,255))
         display.blit(img, (self.x+10,self.y+30))
 
@@ -141,8 +141,9 @@ class ReproduceButton(Button):
             self.reproduce(window.map)
         
     def reproduce(self, map):
+        toLearn = len(map.allCreatures)-1
         Interactions.reproduce(map)
-        Interactions.creaturesLearn(map)
+        Interactions.creaturesLearn(map,toLearn)
 
 class ChangeLayoutButton(Button):
     def __init__(self,text):
