@@ -27,6 +27,7 @@ while True:
             sys.exit()
         if event.type == pygame.MOUSEBUTTONUP:
             window.gui.update(pygame.mouse.get_pos(),display,window)
+            pygame.event.wait(300)
 
     keys = pygame.key.get_pressed()
 

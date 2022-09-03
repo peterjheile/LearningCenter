@@ -175,6 +175,7 @@ class ChangeLayoutButton(Button):
                         continues = False
                         break
                     coords = pygame.mouse.get_pos()
+                    # locationX, locationY = coords[0]-button.x,coords[1] - button.y
                     button.x = coords[0]
                     button.y = coords[1]
 
@@ -194,27 +195,33 @@ class ChangeLayoutButton(Button):
 
         clock = pygame.time.Clock()
         continues = True
+        print("started again")
         while continues:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                pygame.event.wait(10)
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if buttons[6].checkClicked(pygame.mouse.get_pos(), buttons, display, window, True):
                         continues = False
                         break
                     if buttons[0].checkClicked(pygame.mouse.get_pos(), True):
+                        diffX,diffY = pygame.mouse.get_pos()[0] - buttons[0].x, pygame.mouse.get_pos()[1] - buttons[1].y
                         editCoords(buttons[0], display)
                     elif buttons[1].checkClicked(pygame.mouse.get_pos(),buttons,display,window, True):
+                        diffX,diffY = pygame.mouse.get_pos()[0] - buttons[0].x, pygame.mouse.get_pos()[1] - buttons[1].y
                         editCoords(buttons[1], display)
                     elif buttons[2].checkClicked(pygame.mouse.get_pos(),window, True):
+                        diffX,diffY = pygame.mouse.get_pos()[0] - buttons[0].x, pygame.mouse.get_pos()[1] - buttons[1].y
                         editCoords(buttons[2], display)
                     elif buttons[3].checkClicked(pygame.mouse.get_pos(),window,display, True):
+                        diffX,diffY = pygame.mouse.get_pos()[0] - buttons[0].x, pygame.mouse.get_pos()[1] - buttons[1].y
                         editCoords(buttons[3], display)
                     elif buttons[4].checkClicked(pygame.mouse.get_pos(),window,display, True):
+                        diffX,diffY = pygame.mouse.get_pos()[0] - buttons[0].x, pygame.mouse.get_pos()[1] - buttons[1].y
                         editCoords(buttons[4], display)
                     elif buttons[5].checkClicked(pygame.mouse.get_pos(),window, True):
+                        diffX,diffY = pygame.mouse.get_pos()[0] - buttons[0].x, pygame.mouse.get_pos()[1] - buttons[1].y
                         editCoords(buttons[5], display)
 
             keys = pygame.key.get_pressed()
