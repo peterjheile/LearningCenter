@@ -157,8 +157,9 @@ class Interactions:
         elif (xDist > 0 and yDist < 0):
             angle = angle + 270
 
-        factors = [angle, closest, lBord, rBord, tBord, bBord, angleFood, closestFood,cre.energy]
+        factors = [closest, lBord, rBord, tBord, bBord, closestFood]
         updatedFactors = [i*map.zoom for i in factors]
+        updatedFactors += [angle,angleFood,cre.energy]
         
         return updatedFactors
         
@@ -202,7 +203,8 @@ class Interactions:
         numCreatures = len(map.allCreatures)
         for i in range(numCreatures):
             other = copy.deepcopy(map.allCreatures[i])
-            other.x += 20
+            other.x += randint(-50,50)
+            other.y += randint(-50,50)
             map.allCreatures.append(other)
 
     @classmethod
@@ -213,7 +215,8 @@ class Interactions:
                 allFood.remove(i)
                 allFood.append(Food(map.width,map.height,map.x,map.y,map.zoom))
                 cre = copy.deepcopy(cre)
-                cre.x += 30
+                cre.x += randint(-300,300)
+                cre.y += randint(-300,300)
                 map.allCreatures.append(cre)
 
                 

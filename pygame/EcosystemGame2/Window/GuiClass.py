@@ -13,7 +13,7 @@ class GUI:
         self.saveButton = SaveButton("Save")
         self.ZoomInButton = ZoomInButton("Zoom In")
         self.ZoomOutButton = ZoomOutButton("Zoom out")
-        self.reproduceButton = ReproduceButton("Reproduce")
+        self.reproduceButton = ReproduceButton("Sexy Sex")
         self.ChangeLayoutButton = ChangeLayoutButton("Change Layout")
         self.buttons = [self.startButton,self.pauseButton,self.saveButton,self.ZoomInButton,self.ZoomOutButton,self.reproduceButton
         , self.ChangeLayoutButton]
