@@ -107,58 +107,45 @@ class Interactions:
 
     @classmethod
     def creatureMove(Interactions,i,map,obstacles):
-        movement = Interactions.getMoveFactors(i,map,obstacles)
+        movement = Interactions.getMoveFactors(i,map)
         return i.brain.calculateOutput(movement)
 
     @classmethod
-    def getMoveFactors(Interactions,cre,map,obstacles):
-        #gets the closest obstacle and passes the distance as a move factor
-        closest,obstacle = 100000,obstacles[0]
-        for obs in obstacles:
-            distance = math.dist((cre.x,cre.y),(obs.x,obs.y))
-            if distance < closest:
-                closest,obstacle = distance,obs
-        closest = closest
+    def getAngleAndDist(self,cre,other):
+        xDist = (cre.x-other.x) if (cre.x-other.x) != 0 else 1
+        yDist = cre.y - other.y
+        distance = math.dist((cre.x,cre.y),(other.x,other.y))
+        return (distance,math.degrees(math.atan((yDist/xDist))))
 
-        #gets the closest Food and passes it as a move factor
-        closestFood, obsFood,distance = 100000,map.allFood[0],100000
-        for food in map.allFood:
-            distance = math.dist((cre.x,cre.y),(food.x,food.y))
-            if distance < closestFood:
-                closestFood, obsFood = distance,food
-            closestFood = closestFood
-
-        #gets the angle of the closest food
-        xDist = (obsFood.x - cre.x) if (obsFood.x - cre.x != 0) else 1
-        yDist = (obsFood.y - cre.y)
-        angleFood = math.degrees((math.atan(abs(yDist)/abs(xDist))))
-        if (xDist < 0 and yDist > 0):
-            angleFood = angleFood+90
-        elif (xDist < 0 and yDist < 0):
-            angleFood = angleFood + 180
-        elif (xDist > 0 and yDist < 0):
-            angleFood = angleFood + 270
-
-
+    @classmethod
+    def getMoveFactors(Interactions,cre,map):
         #distance to each side of the map
         centerX,centerY = map.x+(map.width/2),map.y+(map.height/2)
-        centerDistance = math.dist((cre.x,cre.y),(centerX,centerY))
+        xDist = (cre.x - centerX) if (cre.x - centerX) != 0 else 1
+        yDist = cre.y - centerY
+        centerDist = math.dist((cre.x,cre.y),(centerX,centerY))
+        centerAngle = math.degrees(math.atan((yDist/xDist)))
 
-        #finds angle of closest obstacle
-        xDist = (obstacle.x - cre.x) if (obstacle.x - cre.x != 0) else 1
-        yDist = (obstacle.y - cre.y)
-        angle = math.degrees((math.atan(abs(yDist)/abs(xDist))))
-        if (xDist < 0 and yDist > 0):
-            angle = angle+90
-        elif (xDist < 0 and yDist < 0):
-            angle = angle + 180
-        elif (xDist > 0 and yDist < 0):
-            angle = angle + 270
+        #distance and angle of the closest obstacle
+        obsDist, obsAngle = (100000,0)
+        for i in map.allObstacles:
+            info = Interactions.getAngleAndDist(cre,i)
+            if info[0]<obsDist:
+                obsDist,obsAngle = info
 
-        factors = [closest/1000, 1/centerDistance, closestFood/1000]
-        updatedFactors = [i*map.zoom for i in factors]
-        updatedFactors += [angle/360,angleFood/360,cre.energy/2000]
-        # print(updatedFactors)
+        #distance and angle of the closest food
+        foodDist, foodAngle = (100000,0)
+        for i in map.allObstacles:
+            info = Interactions.getAngleAndDist(cre,i)
+            if info[0]<foodDist:
+                foodDist,foodAngle = info
+
+        #gets the creature's energy
+        energy = cre.energy
+
+        factors = [centerDist, obsDist, foodDist]
+        updatedFactors = [(i*map.zoom)/(1000*map.zoom) for i in factors]
+        updatedFactors += [centerAngle/90,obsAngle/90,foodAngle/90,energy/1000]
         return updatedFactors
         
 

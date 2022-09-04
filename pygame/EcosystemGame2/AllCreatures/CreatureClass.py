@@ -11,7 +11,7 @@ class Creature:
         self.color = (255,255,0)
         self.x = randint(int(mapX),int(mapX+ (xRange - self.width)))
         self.y = randint(int(mapY),int(mapY+(yRange - self.height)))
-        self.brain = Brain([6,10,12,10,2])
+        self.brain = Brain([7,10,12,10,2])
         self.energy = 1000
 
     def draw(self,display):
