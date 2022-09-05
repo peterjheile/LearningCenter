@@ -98,54 +98,53 @@ class Interactions:
                 map.allowed = False
         return movement*map.zoom
 
-    # @classmethod
-    # def tanh(Interactions, num):
-    #     if math.isnan(num):
-    #         return 0
-    #     else:
-    #         return 1/(1+math.e**-num) - .5
-
     @classmethod
     def creatureMove(Interactions,i,map,obstacles):
         movement = Interactions.getMoveFactors(i,map)
         return i.brain.calculateOutput(movement)
 
-    @classmethod
-    def getAngleAndDist(self,cre,other):
-        xDist = (cre.x-other.x) if (cre.x-other.x) != 0 else 1
-        yDist = cre.y - other.y
-        distance = math.dist((cre.x,cre.y),(other.x,other.y))
-        return (distance,math.degrees(math.atan((yDist/xDist))))
+
+    # @classmethod
+    # def convertToAngle(self,angle,cre,other):
+
+
+
+#maybe instead of angle do the x and y coords
+    # @classmethod
+    # def getAngleAndDist(self,cre,other):
+    #     xDist = (cre.x-other.x) if (cre.x-other.x) != 0 else 1
+    #     yDist = cre.y - other.y
+    #     distance = math.dist((cre.x,cre.y),(other.x,other.y))
+    #     return (distance,Interactions(math.atan((yDist/xDist))))
 
     @classmethod
     def getMoveFactors(Interactions,cre,map):
         #distance to each side of the map
         centerX,centerY = map.x+(map.width/2),map.y+(map.height/2)
-        xDist = (cre.x - centerX) if (cre.x - centerX) != 0 else 1
-        yDist = cre.y - centerY
-        centerDist = math.dist((cre.x,cre.y),(centerX,centerY))
-        centerAngle = math.degrees(math.atan((yDist/xDist)))
+        midDistX = cre.x - centerX
+        midDistY = cre.y - centerY
+        centerDist = math.dist((cre.x,cre.y),(midDistX,midDistY))
+        # centerAngle = math.degrees(math.atan((yDist/xDist)))
 
         #distance and angle of the closest obstacle
-        obsDist, obsAngle = (100000,0)
-        for i in map.allObstacles:
-            info = Interactions.getAngleAndDist(cre,i)
-            if info[0]<obsDist:
-                obsDist,obsAngle = info
+        obsDistX,obsDistY,obsDist = 100000,100000,100000
+        for obs in map.allObstacles:
+            tempDist = math.dist((cre.x,cre.y),(obs.x,obs.y))
+            if tempDist < obsDist:
+                obsDistX,obsDistY,obsDist = cre.x - obs.x, cre.y - obs.y, tempDist
 
         #distance and angle of the closest food
-        foodDist, foodAngle = (100000,0)
-        for i in map.allObstacles:
-            info = Interactions.getAngleAndDist(cre,i)
-            if info[0]<foodDist:
-                foodDist,foodAngle = info
+        foodDistX,foodDistY,foodDist = 100000,100000,100000
+        for food in map.allFood:
+            tempDist = math.dist((cre.x,cre.y),(obs.x,obs.y))
+            if tempDist < foodDist:
+                foodDistX,foodDistY,foodDist = cre.x - obs.x, cre.y - obs.y, tempDist
 
         #gets the creature's energy
         energy = cre.energy
 
-        factors = [centerDist, obsDist, foodDist]
+        factors = [midDistX,midDistY, centerDist,obsDistX,obsDistY,obsDist,foodDistX,foodDistY,foodDist]
         updatedFactors = [(i*map.zoom)/(1000*map.zoom) for i in factors]
-        updatedFactors += [centerAngle/90,obsAngle/90,foodAngle/90,energy/1000]
         return updatedFactors
         
 
@@ -174,7 +173,15 @@ class Interactions:
     def checkCollision(Interactions, o1, o2):
         #used to check collision between two things in the
         if isinstance(o2,Map):
-            return ((o1.x+o1.width>o2.x+o2.width) or (o1.x<o2.x) or (o1.y+o1.height>o2.y+o2.height) or (o1.y<o2.y))
+            if ((o1.x+o1.width>o2.x+o2.width) or (o1.x<o2.x) or (o1.y+o1.height>o2.y+o2.height) or (o1.y<o2.y)):
+                if o1.x<o2.x+1:
+                    o1.x = o2.x+2
+                elif o1.y<o2.y+1:
+                    o1.y = o2.y+2
+                elif o1.x>o2.x+o2.width-1:
+                    o1.x = o2.x+o2.width-2
+                elif o1.y>o2.y+o2.height-1:
+                    o1.y = o2.y+o2.height-2
         else:
             return not(((o1.x+o1.width)<o2.x or o1.x>(o2.x+o2.width))or((o1.y+o1.height)<o2.y or o1.y > (o2.y+o2.height)))
 
