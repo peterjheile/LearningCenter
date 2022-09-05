@@ -44,22 +44,22 @@ class Brain:
         return (math.e**x-math.e**-x)/(math.e**x+math.e**-x)
 
 #edits every weight and bias by a small random amount
-    def learn(self):
-        for a in range(0,len(self.allWeights)):
-            for b in range(0,len(self.allWeights[a])):
-                for c in range(0,len(self.allWeights[a][b])):
-                    self.allWeights[a][b][c] += random.uniform(-1,1)
-        for a in range(0,len(self.allBiases)):
-            self.allBiases[a] += random.uniform(-.1,.1)
+    # def learn(self):
+    #     for a in range(0,len(self.allWeights)):
+    #         for b in range(0,len(self.allWeights[a])):
+    #             for c in range(0,len(self.allWeights[a][b])):
+    #                 self.allWeights[a][b][c] += random.uniform(-.5,5)
+    #     for a in range(0,len(self.allBiases)):
+    #         self.allBiases[a] += random.uniform(-.2,.2)
 
 #edits a random weight and random bias by a small random amount
-    # def learn(self):
-    #     n1 = randint(1,len(self.allWeights)-1)
-    #     n2 = randint(1,len(self.allWeights[n1])-1)
-    #     n3 = randint(1,len(self.allWeights[n1][n2])-1)
-    #     m = randint(1,len(self.allBiases)-1)
-    #     self.allWeights[n1][n2][n3] += random.uniform(-1,1)
-    #     self.allBiases[m] += random.uniform(-.1,.1)
+    def learn(self):
+        n1 = randint(0,len(self.allWeights)-1)
+        n2 = randint(0,len(self.allWeights[n1])-1)
+        n3 = randint(0,len(self.allWeights[n1][n2])-1)
+        m = randint(0,len(self.allBiases)-1)
+        self.allWeights[n1][n2][n3] += random.uniform(-.5,.5)
+        self.allBiases[m] += random.uniform(-.2,.2)
 
     def print(self):
         print("Layers")

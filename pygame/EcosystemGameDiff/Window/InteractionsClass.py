@@ -28,8 +28,8 @@ class Interactions:
             movement = Interactions.creatureMove(i,map,obstacles)
             if all:
                 if i.energy >0:
-                    i.x += displacement[0] + Interactions.adjustMovements(zoom,map,movement[0])
-                    i.y += displacement[1] + Interactions.adjustMovements(zoom,map,movement[1])
+                    i.x += displacement[0] + Interactions.adjustMovements(zoom,map,movement[0])*5
+                    i.y += displacement[1] + Interactions.adjustMovements(zoom,map,movement[1])*5
                     i.energy -= (1*map.zoom)
                     Interactions.checkFoodCollision(map,map.allFood,i)
                 else:
@@ -174,14 +174,15 @@ class Interactions:
         #used to check collision between two things in the
         if isinstance(o2,Map):
             if ((o1.x+o1.width>o2.x+o2.width) or (o1.x<o2.x) or (o1.y+o1.height>o2.y+o2.height) or (o1.y<o2.y)):
-                if o1.x<o2.x+1:
-                    o1.x = o2.x+2
-                elif o1.y<o2.y+1:
-                    o1.y = o2.y+2
-                elif o1.x>o2.x+o2.width-1:
-                    o1.x = o2.x+o2.width-2
-                elif o1.y>o2.y+o2.height-1:
-                    o1.y = o2.y+o2.height-2
+                # if o1.x<o2.x+1:
+                #     o1.x = o2.x+2
+                # elif o1.y<o2.y+1:
+                #     o1.y = o2.y+2
+                # elif o1.x>o2.x+o2.width-1:
+                #     o1.x = o2.x+o2.width-2
+                # elif o1.y>o2.y+o2.height-1:
+                #     o1.y = o2.y+o2.height-2
+                o2.allCreatures.remove(o1)
         else:
             return not(((o1.x+o1.width)<o2.x or o1.x>(o2.x+o2.width))or((o1.y+o1.height)<o2.y or o1.y > (o2.y+o2.height)))
 
@@ -192,12 +193,13 @@ class Interactions:
 
     @classmethod
     def reproduce(self,map):
-        numCreatures = len(map.allCreatures)
-        for i in range(numCreatures):
-            other = copy.deepcopy(map.allCreatures[i])
-            other.x += randint(-50,50)
-            other.y += randint(-50,50)
-            map.allCreatures.append(other)
+        pass
+        # numCreatures = len(map.allCreatures)
+        # for i in range(numCreatures):
+        #     other = copy.deepcopy(map.allCreatures[i])
+        #     other.x += randint(-50,50)
+        #     other.y += randint(-50,50)
+        #     map.allCreatures.append(other)
 
     @classmethod
     def checkFoodCollision(self,map, allFood, cre):
@@ -206,12 +208,48 @@ class Interactions:
                 allFood.remove(i)
                 allFood.append(Food(map.width,map.height,map.x,map.y,map.zoom))
                 cre.energy += 1000
-                for _ in range(0,4):
-                    cre = copy.deepcopy(cre)
-                    cre.x += randint(-300,300)
-                    cre.y += randint(-300,300)
-                    cre.brain.learn()
-                    map.allCreatures.append(cre)
+                cre.foodEaten += 1
+                # for _ in range(0,4):
+                #     cre = copy.deepcopy(cre)
+                #     cre.x += randint(-300,300)
+                #     cre.y += randint(-300,300)
+                #     cre.brain.learn()
+                #     map.allCreatures.append(cre)
+    @classmethod
+    def newGenBest(self,window,allCreatures,bestCreature):
+        bestCreature = bestCreature
+        totalFoodEaten = 0
+        averageFoodEaten = 0
+        for i in window.map.allCreatures:
+            totalFoodEaten+=i.foodEaten
+            if bestCreature.foodEaten<=i.foodEaten:
+                bestCreature = i
+        averageFoodEaten = totalFoodEaten/len(window.map.allCreatures) if len(window.map.allCreatures) >0 else 0
+        survivors = len(window.map.allCreatures)
+
+        window.map.allCreatures = []
+        for i in range(10):
+            cre = copy.deepcopy(bestCreature)
+            cre.x = randint(int(window.map.x),int(window.map.x+window.map.width))
+            cre.y = randint(int(window.map.y),int(window.map.y+window.map.height))
+            cre.brain.learn()
+            cre.width = 10*window.map.zoom
+            cre.height = cre.width
+            cre.energy = 500
+            cre.foodEaten = 0
+            window.map.allCreatures.append(cre)
+            
+        return bestCreature,survivors,totalFoodEaten,averageFoodEaten
+
+    @classmethod
+    def getAllCreatures(self,window):
+        lst = []
+        for i in window.map.allCreatures:
+            lst.append(i)
+        return lst
+
+        
+
 
                 
             
