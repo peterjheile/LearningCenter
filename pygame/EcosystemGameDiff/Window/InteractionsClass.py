@@ -5,8 +5,10 @@ import pygame
 sys.path.append("Map")
 sys.path.append("AllObstacles")
 sys.path.append("AllCreatures")
+sys.path.append("Generators")
 from AllObstacles.FoodClass import Food
 from AllCreatures.CreatureClass import Creature
+from Generators.GeneratorClass import Generator
 
 from Maps.MapClass import Map
 import copy
@@ -228,6 +230,14 @@ class Interactions:
         survivors = len(window.map.allCreatures)
 
         window.map.allCreatures = []
+        temp = copy.deepcopy(bestCreature)
+        temp.x = randint(int(window.map.x),int(window.map.x+window.map.width))
+        temp.y = randint(int(window.map.y),int(window.map.y+window.map.height))
+        temp.width = 10*window.map.zoom
+        temp.height = temp.width
+        temp.energy = 500
+        temp.foodEaten = 0
+        window.map.allCreatures.append(temp)
         for i in range(10):
             cre = copy.deepcopy(bestCreature)
             cre.x = randint(int(window.map.x),int(window.map.x+window.map.width))
